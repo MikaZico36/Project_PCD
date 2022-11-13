@@ -20,6 +20,9 @@ public class Game extends Observable {
 	protected Cell[][] board;
 
 	public Game() {
+	private static Game game = null;
+	
+	private Game() {
 		board = new Cell[Game.DIMX][Game.DIMY];
 	
 		for (int x = 0; x < Game.DIMX; x++) 
@@ -27,12 +30,25 @@ public class Game extends Observable {
 				board[x][y] = new Cell(new Coordinate(x, y),this);
 	}
 	
+	/**
+	 * De modo a obter sempre a mesma instância da Classe Game sem ter que passar por variáveis, implementou-se o padrão singleton
+	 * @return Instância da classe Game
+	 */
+	public static Game getGame() {
+		if(game == null)
+			game = new Game();
+		return game;
+	}
+	
 	/** Adiciona os jogadores ao Board
 	 * @param player O jogador que queremos adicionar
+	 * @throws InterruptedException 
 	 */
 	public void addPlayerToGame(Player player) {
+	public synchronized void addPlayerToGame(Player player) throws InterruptedException {
 		Cell initialPos=getRandomCell();
 		
+<<<<<<< HEAD
 		if(initialPos.isOcupied()) {
 			System.out.println("Jogador " + player.getIdentification() + " não foi colocado");
 			return;
@@ -43,6 +59,11 @@ public class Game extends Observable {
 		// To update GUI
 		notifyChange();
 
+=======
+		new BoardThread(initialPos, player).start();
+
+		
+>>>>>>> 37e846bdf54327654855e0b1cc091b8616019959
 	}
 
 	public Cell getCell(Coordinate at) {
