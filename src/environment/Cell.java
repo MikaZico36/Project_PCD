@@ -41,6 +41,13 @@ public class Cell {
 		//notifyAll();
 	}
 	
-	
+	public Coordinate getCoordinate() {
+		return position;
+	}
 
+	
+	public void setCoordinate(Coordinate c) {
+		position = c;
+	}
+	
 }

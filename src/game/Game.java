@@ -38,10 +38,11 @@ public class Game extends Observable {
 			return;
 		}
 		initialPos.setPlayer(player);
+		player.setCell(initialPos);
 		
 		// To update GUI
 		notifyChange();
-		
+
 	}
 
 	public Cell getCell(Coordinate at) {

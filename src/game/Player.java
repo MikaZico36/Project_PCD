@@ -15,13 +15,14 @@ public abstract class Player  {
 	protected  Game game;
 
 	private int id;
-
+	protected Cell position;
+	
 	private byte currentStrength;
 	protected byte originalStrength;
 
 	// TODO: get player position from data in game
 	public Cell getCurrentCell() {
-		return null;
+		return position;
 	}
 
 	public Player(int id, Game game, byte strength) {
@@ -40,6 +41,13 @@ public abstract class Player  {
 		+ "]";
 	}
 
+	public void setCell(Cell c) {
+		position = c;
+	}
+	
+
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

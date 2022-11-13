@@ -8,5 +8,5 @@ public enum Direction {
 	}
 	public Coordinate getVector() {
 		return vector;
-	}
+	}	
 }
