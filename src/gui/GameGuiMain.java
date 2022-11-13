@@ -52,6 +52,7 @@ public class GameGuiMain implements Observer {
 	}
 
 	public static void main(String[] args) {
+		System.out.println("Hello World");
 		GameGuiMain game = new GameGuiMain();
 		game.init();
 	}
