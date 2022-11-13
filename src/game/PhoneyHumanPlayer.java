@@ -45,13 +45,14 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		Cell current =getCurrentCell();
 		Direction d = ChooseMove();
 		Coordinate c = d.getVector();
+		
 		current.getPosition().translate(c);
-		System.out.println("depois translate" + current);
+		System.out.println("depois translate" + current.getPosition());
 		
 		
 		setCell(current);
 		game.notifyChange();
-		System.out.println(position.getCoordinate());
+		System.out.println(position.getPosition());
 	}
 
 

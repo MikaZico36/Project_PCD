@@ -17,7 +17,6 @@ public class GameGuiMain implements Observer {
 
 	public GameGuiMain() {
 		super();
-		game = new Game();
 		game = Game.getGame();
 		game.addObserver(this);
 
@@ -35,7 +34,6 @@ public class GameGuiMain implements Observer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public void init()  {
 	public void init() throws InterruptedException  {
 		frame.setVisible(true);
 
@@ -86,8 +84,6 @@ public class GameGuiMain implements Observer {
 		boardGui.repaint();
 	}
 
-	public static void main(String[] args) {
-		System.out.println("Hello Worlds");
 	public static void main(String[] args) throws InterruptedException {
 		GameGuiMain game = new GameGuiMain();
 		game.init();
