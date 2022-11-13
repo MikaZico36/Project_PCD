@@ -9,7 +9,7 @@ public class Game extends Observable {
 
 	public static final int DIMY = 30;
 	public static final int DIMX = 30;
-	private static final int NUM_PLAYERS = 90;
+	public static final int NUM_PLAYERS = 90; //TODO ver se podemos deixar isto a public
 	private static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 
 	public static final long REFRESH_INTERVAL = 400;
@@ -27,11 +27,16 @@ public class Game extends Observable {
 				board[x][y] = new Cell(new Coordinate(x, y),this);
 	}
 	
-	/** 
-	 * @param player 
+	/** Adiciona os jogadores ao Board
+	 * @param player O jogador que queremos adicionar
 	 */
 	public void addPlayerToGame(Player player) {
 		Cell initialPos=getRandomCell();
+		
+		if(initialPos.isOcupied()) {
+			System.out.println("Jogador " + player.getIdentification() + " não foi colocado");
+			return;
+		}
 		initialPos.setPlayer(player);
 		
 		// To update GUI

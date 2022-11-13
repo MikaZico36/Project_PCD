@@ -29,7 +29,16 @@ public class Cell {
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	public void setPlayer(Player player) {
+		/*if(this.isOcupied())
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+		
 		this.player = player;
+		//notifyAll();
 	}
 	
 	

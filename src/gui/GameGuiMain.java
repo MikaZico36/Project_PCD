@@ -41,9 +41,16 @@ public class GameGuiMain implements Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		game.addPlayerToGame(new PhoneyHumanPlayer(1, game, (byte)3));
+		
+		for(int i = 0; i < Game.NUM_PLAYERS; i++) {
+			byte power = (byte) Math.round(Math.random()*3);
+			if(power == 0)	power = 1;
+			
+			game.addPlayerToGame(new PhoneyHumanPlayer(i, game, power));
+		}
+		/*game.addPlayerToGame(new PhoneyHumanPlayer(1, game, (byte)3));
 		game.addPlayerToGame(new PhoneyHumanPlayer(2, game, (byte)2));
-		game.addPlayerToGame(new PhoneyHumanPlayer(3, game, (byte)1));
+		game.addPlayerToGame(new PhoneyHumanPlayer(3, game, (byte)1));*/
 	}
 
 	@Override
