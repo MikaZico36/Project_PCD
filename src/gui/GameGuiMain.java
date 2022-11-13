@@ -7,6 +7,9 @@ import game.PhoneyHumanPlayer;
 
 import javax.swing.JFrame;
 
+import environment.Cell;
+import environment.Coordinate;
+
 public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
@@ -14,7 +17,7 @@ public class GameGuiMain implements Observer {
 
 	public GameGuiMain() {
 		super();
-		game = new Game();
+		game = Game.getGame();
 		game.addObserver(this);
 
 		buildGui();
@@ -31,7 +34,7 @@ public class GameGuiMain implements Observer {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
-	public void init()  {
+	public void init() throws InterruptedException  {
 		frame.setVisible(true);
 
 		// Demo players, should be deleted
@@ -48,9 +51,23 @@ public class GameGuiMain implements Observer {
 			
 			game.addPlayerToGame(new PhoneyHumanPlayer(i, game, power));
 		}
-		/*game.addPlayerToGame(new PhoneyHumanPlayer(1, game, (byte)3));
-		game.addPlayerToGame(new PhoneyHumanPlayer(2, game, (byte)2));
-		game.addPlayerToGame(new PhoneyHumanPlayer(3, game, (byte)1));*/
+		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//TODO Temporario, remover depois de implementar movimento
+		for(int x = 0; x < Game.DIMX; x++) {
+			 for(int y = 0; y < Game.DIMY; y++) {
+				 Cell c = game.getCell(new Coordinate(x,y));
+				 if(c.isOcupied()) {
+					 c.unsetPlayer();
+				 }
+			 }
+		}
 	}
 
 	@Override
@@ -58,8 +75,7 @@ public class GameGuiMain implements Observer {
 		boardGui.repaint();
 	}
 
-	public static void main(String[] args) {
-		System.out.println("Hello Worlds");
+	public static void main(String[] args) throws InterruptedException {
 		GameGuiMain game = new GameGuiMain();
 		game.init();
 	}
