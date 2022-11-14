@@ -21,8 +21,9 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	}
 
 	//Função que calcula de forma random para onde o player se vai mover 
-	
-	public static Direction ChooseMove() {
+
+	@Override
+	public Direction chosenDirection() {
 		Direction d = null;
 		int prob = (int) Math.round((Math.random()*3));
 		System.out.println(prob);
@@ -45,37 +46,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	}
 
 
-	public  synchronized void move() {
-		Cell current =getCurrentCell();
-		Direction d = ChooseMove();
-		Coordinate c = d.getVector();
-		//System.out.println("Cell " + current.getPosition() + " " + "Direction " + c);
-		//System.out.println("Mudança " + current.getPosition().translate(c));
 
-		System.out.println(" X " + current.getPosition().translate(c).getX() + " Y " + current.getPosition().translate(c).getY());
-
-
-
-		if( current.getPosition().translate(c).getX() >= 30 || current.getPosition().translate(c).getX() < 0 ||
-				current.getPosition().translate(c).getY() >= 30 || current.getPosition().translate(c).getY() <0 ){
-			System.out.println("Entrei aqui");
-
-			return;
-		}
-
-		Cell nova = game.getCell(current.getPosition().translate(c));  //Vou buscar a célula para onde o player quer se mover
-
-		System.out.println(nova.getCoordinate());
-
-
-		nova.setPlayer(this);  //Digo que o player agora faz parte dessa célula
-		this.setCell(nova); //Coloco a Cell position da classe Player = nova
-		
-		game.getCell(current.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
-		
-		
-		Game.getGame().notifyChange();
-	}
 
 
 	@Override
