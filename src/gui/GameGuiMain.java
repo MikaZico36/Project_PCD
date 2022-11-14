@@ -46,7 +46,7 @@ public class GameGuiMain implements Observer {
 		}
 		
 		PhoneyHumanPlayer player = new PhoneyHumanPlayer(1, game, (byte)3);
-		//TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
+		// TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
 	/*	for(int i = 0; i < Game.NUM_PLAYERS; i++) {
 			byte power = (byte) Math.round(Math.random()*3);
 			if(power == 0)	power = 1;

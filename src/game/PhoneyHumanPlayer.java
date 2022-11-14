@@ -57,12 +57,12 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 
 		synchronized(this) {
 			move();
-			try {
+			/*try {
 				wait(Game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 		}
 
 			try {
