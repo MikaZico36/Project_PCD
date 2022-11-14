@@ -42,7 +42,8 @@ public abstract class Player  {
 		Direction d = chosenDirection();
 		Coordinate c = d.getVector();
 
-		if( current.getPosition().translate(c).getX() >= 30 || current.getPosition().translate(c).getX() < 0 ||
+		System.out.println("PLayer ID antes do if " + this.id);
+		if(current == null || current.getPosition().translate(c).getX() >= 30 || current.getPosition().translate(c).getX() < 0 ||
 				current.getPosition().translate(c).getY() >= 30 || current.getPosition().translate(c).getY() <0 ){
 			//System.out.println("Entrei aqui");
 
