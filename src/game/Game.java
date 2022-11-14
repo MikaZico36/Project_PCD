@@ -45,7 +45,8 @@ public class Game extends Observable {
 	 */
 	
 	public synchronized void addPlayerToGame(Player player) throws InterruptedException {
-		Cell initialPos=getRandomCell();
+		//Cell initialPos=getRandomCell();
+		Cell initialPos= new Cell(new Coordinate(0,0), Game.getGame());
 		player.setCell(Game.getGame().getCell(initialPos.getPosition()));
 		new BoardThread(initialPos, player).start();
 

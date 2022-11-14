@@ -4,6 +4,8 @@ import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 
+import static java.lang.Thread.sleep;
+
 /**
  * Class to demonstrate a player being added to the game.
  * @author luismota
@@ -43,15 +45,29 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	}
 
 
-	public void move() {
+	public  synchronized void move() {
 		Cell current =getCurrentCell();
 		Direction d = ChooseMove();
 		Coordinate c = d.getVector();
-		System.out.println("Cell " + current.getPosition() + " " + "Direction " + c);
-		System.out.println("Mudança " + current.getPosition().translate(c));
-		
+		//System.out.println("Cell " + current.getPosition() + " " + "Direction " + c);
+		//System.out.println("Mudança " + current.getPosition().translate(c));
+
+		System.out.println(" X " + current.getPosition().translate(c).getX() + " Y " + current.getPosition().translate(c).getY());
+
+
+
+		if( current.getPosition().translate(c).getX() >= 30 || current.getPosition().translate(c).getX() < 0 ||
+				current.getPosition().translate(c).getY() >= 30 || current.getPosition().translate(c).getY() <0 ){
+			System.out.println("Entrei aqui");
+
+			return;
+		}
+
 		Cell nova = game.getCell(current.getPosition().translate(c));  //Vou buscar a célula para onde o player quer se mover
-		
+
+		System.out.println(nova.getCoordinate());
+
+
 		nova.setPlayer(this);  //Digo que o player agora faz parte dessa célula
 		this.setCell(nova); //Coloco a Cell position da classe Player = nova
 		
@@ -65,7 +81,9 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+
 		while(true) {
+
 		synchronized(this) {
 			move();
 			try {
@@ -75,6 +93,13 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 				e.printStackTrace();
 			}
 		}
+
+			try {
+				sleep(game.REFRESH_INTERVAL);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+
 		}
 	}
 }
