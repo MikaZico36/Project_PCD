@@ -28,19 +28,10 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		int prob = (int) Math.round((Math.random()*3));
 		System.out.println(prob);
 		switch (prob) {
-		case 0 :
-			d = Direction.UP;
-			break;
-		case 1 : 
-			d = Direction.RIGHT;
-			break;
-		case 2 :
-			d = Direction.LEFT;
-			break;
-		case 3 :
-			d = Direction.DOWN;
-			break;
-
+			case 0 -> d = Direction.UP;
+			case 1 -> d = Direction.RIGHT;
+			case 2 -> d = Direction.LEFT;
+			case 3 -> d = Direction.DOWN;
 		}
 		return d;
 	}
@@ -52,6 +43,12 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+
+		try {
+			sleep(4000);
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 
 		while(true) {
 
