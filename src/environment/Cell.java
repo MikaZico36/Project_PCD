@@ -28,22 +28,44 @@ public class Cell {
 	}
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
-	public void setPlayer(Player player) {
-		/*if(this.isOcupied())
+	
+	public synchronized void setPlayer(Player player) {
+		if(this.isOcupied())
 			try {
+				System.out.println("Jogador " + player.getIdentification() + " não foi colocado, esperando...");
 				wait();
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}*/
+			}
 		
 		this.player = player;
+		player.setCell(this);
 		//notifyAll();
+		System.out.println("O jogador " + player.getIdentification() + " foi adicionado.");
 	}
 	
+	public Coordinate getCoordinate() {
+		return position;
+	}
+	
+	public synchronized void unsetPlayer() {
+		if(!isOcupied())
+			return;
+		
+		player = null;
+		Game.getGame().notifyChange();
+		notifyAll();
+		
+		
+	}
+
 	
 	public void setCoordinate(Coordinate c) {
 		position = c;
 	}
+	
+
+	
 	
 }

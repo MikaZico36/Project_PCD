@@ -43,23 +43,12 @@ public class Game extends Observable {
 	 * @param player O jogador que queremos adicionar
 	 * @throws InterruptedException 
 	 */
+	
 	public synchronized void addPlayerToGame(Player player) throws InterruptedException {
 		Cell initialPos=getRandomCell();
-		
-		if(initialPos.isOcupied()) {
-			System.out.println("Jogador " + player.getIdentification() + " não foi colocado");
-			return;
-		}
-		initialPos.setPlayer(player);
-		player.setCell(initialPos);
-		
-		// To update GUI
-		notifyChange();
-
-
+		player.setCell(Game.getGame().getCell(initialPos.getPosition()));
 		new BoardThread(initialPos, player).start();
 
-		
 	}
 
 	public Cell getCell(Coordinate at) {

@@ -18,6 +18,8 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		return true;
 	}
 
+	//Função que calcula de forma random para onde o player se vai mover 
+	
 	public static Direction ChooseMove() {
 		Direction d = null;
 		int prob = (int) Math.round((Math.random()*3));
@@ -45,18 +47,19 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 		Cell current =getCurrentCell();
 		Direction d = ChooseMove();
 		Coordinate c = d.getVector();
+		System.out.println("Cell " + current.getPosition() + " " + "Direction " + c);
+		System.out.println("Mudança " + current.getPosition().translate(c));
 		
-		current.getPosition().translate(c);
-		System.out.println("depois translate" + current.getPosition());
+		Cell nova = game.getCell(current.getPosition().translate(c));  //Vou buscar a célula para onde o player quer se mover
+		
+		nova.setPlayer(this);  //Digo que o player agora faz parte dessa célula
+		this.setCell(nova); //Coloco a Cell position da classe Player = nova
+		
+		game.getCell(current.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
 		
 		
-		setCell(current);
-		game.notifyChange();
-		System.out.println(position.getPosition());
+		Game.getGame().notifyChange();
 	}
-
-
-
 
 
 	@Override
@@ -71,7 +74,6 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			System.out.println(position);
 		}
 		}
 	}

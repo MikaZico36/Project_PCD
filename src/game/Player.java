@@ -3,6 +3,7 @@ package game;
 
 
 import environment.Cell;
+import environment.Coordinate;
 
 /**
  * Represents a player.
@@ -12,7 +13,7 @@ import environment.Cell;
 public abstract class Player  {
 
 
-	protected  Game game;
+	protected  Game game = Game.getGame();
 
 	private int id;
 	protected Cell position;
@@ -28,7 +29,6 @@ public abstract class Player  {
 	public Player(int id, Game game, byte strength) {
 		super();
 		this.id = id;
-		this.game=game;
 		currentStrength=strength;
 		originalStrength=strength;
 	}
@@ -78,4 +78,11 @@ public abstract class Player  {
 	public int getIdentification() {
 		return id;
 	}
+	
+	
+	public void changePosition(Coordinate c) {
+		position.setCoordinate(c);
+	}
+	
+	
 }
