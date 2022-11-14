@@ -44,7 +44,7 @@ public abstract class Player  {
 
 		if( current.getPosition().translate(c).getX() >= 30 || current.getPosition().translate(c).getX() < 0 ||
 				current.getPosition().translate(c).getY() >= 30 || current.getPosition().translate(c).getY() <0 ){
-			System.out.println("Entrei aqui");
+			//System.out.println("Entrei aqui");
 
 			return;
 		}

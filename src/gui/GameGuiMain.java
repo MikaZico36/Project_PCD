@@ -57,9 +57,13 @@ public class GameGuiMain implements Observer {
 
 		}*/
 		game.addPlayerToGame(player);
+		game.addPlayerToGame(playerO);
+
+		//TODO Quando colocamos dois players na mesma Cell o primeiro a ser colocado anda mas o segundo fica parado
+
 		//game.addPlayerToGame(new PhoneyHumanPlayer(2, game, (byte)2));
 		//game.addPlayerToGame(new PhoneyHumanPlayer(3, game, (byte)1));
-		game.addPlayerToGame(playerO);
+
 
 		Thread playert = new Thread(player);
 		Thread playerOne = new Thread(playerO);
