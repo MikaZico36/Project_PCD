@@ -46,6 +46,8 @@ public class GameGuiMain implements Observer {
 		}
 		
 		PhoneyHumanPlayer player = new PhoneyHumanPlayer(1, game, (byte)3);
+		PhoneyHumanPlayer playerO = new PhoneyHumanPlayer(2, game, (byte)1);
+
 		// TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
 	/*	for(int i = 0; i < Game.NUM_PLAYERS; i++) {
 			byte power = (byte) Math.round(Math.random()*3);
@@ -57,8 +59,14 @@ public class GameGuiMain implements Observer {
 		game.addPlayerToGame(player);
 		//game.addPlayerToGame(new PhoneyHumanPlayer(2, game, (byte)2));
 		//game.addPlayerToGame(new PhoneyHumanPlayer(3, game, (byte)1));
+		game.addPlayerToGame(playerO);
+
 		Thread playert = new Thread(player);
+		Thread playerOne = new Thread(playerO);
+
+		playerOne.start();
 		playert.start();
+		game.notifyChange();
 		
 	/*	try {
 			Thread.sleep(3000);

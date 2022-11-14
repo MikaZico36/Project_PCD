@@ -11,7 +11,7 @@ import static java.lang.Thread.sleep;
  * @author luismota
  *
  */
-public class PhoneyHumanPlayer extends Player implements Runnable{
+public class PhoneyHumanPlayer extends Player implements Runnable {
 	public PhoneyHumanPlayer(int id, Game game, byte strength) {
 		super(id, game, strength);
 	}
@@ -25,7 +25,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	@Override
 	public Direction chosenDirection() {
 		Direction d = null;
-		int prob = (int) Math.round((Math.random()*3));
+		int prob = (int) Math.round((Math.random() * 3));
 		System.out.println(prob);
 		switch (prob) {
 			case 0 -> d = Direction.UP;
@@ -37,31 +37,26 @@ public class PhoneyHumanPlayer extends Player implements Runnable{
 	}
 
 
-
-
-
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-
-		try {
-			sleep(4000);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-
-		while(true) {
-
-		synchronized(this) {
-			move();
+		int counter = 0;
+		while (true) {
+			counter++;
+			System.out.println("Counter = " + counter + " Player ID = " + this.getIdentification());
+			if (counter == originalStrength) {
+				counter = 0;
+				//System.out.println("Counter dentro do if = " + counter);
+				synchronized (this) {
+					move();
 			/*try {
 				wait(Game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
-		}
-
+				}
+			}
 			try {
 				sleep(game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {

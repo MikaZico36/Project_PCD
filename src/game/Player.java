@@ -16,7 +16,7 @@ public abstract class Player  {
 	protected Game game = Game.getGame();
 	private int id;
 	protected Cell position;
-	
+
 	private byte currentStrength;
 	protected byte originalStrength;
 
@@ -36,7 +36,7 @@ public abstract class Player  {
 	public abstract Direction chosenDirection();
 
 	public synchronized void move() {
-		System.out.println("Posicao inicial: " + this.getCurrentCell().getPosition());
+		//System.out.println("Posicao inicial: " + this.getCurrentCell().getPosition());
 		Cell current =getCurrentCell();
 
 		Direction d = chosenDirection();
