@@ -3,12 +3,10 @@ package gui;
 import java.util.Observable;
 import java.util.Observer;
 import game.Game;
-import game.PhoneyHumanPlayer;
+import game.Player;
+import game.botPlayer;
 
 import javax.swing.JFrame;
-
-import environment.Cell;
-import environment.Coordinate;
 
 public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
@@ -45,8 +43,8 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 		
-		PhoneyHumanPlayer player = new PhoneyHumanPlayer(1, (byte)3);
-		PhoneyHumanPlayer playerO = new PhoneyHumanPlayer(2, (byte)1);
+		botPlayer player = new botPlayer(1, (byte)3);
+		botPlayer playerO = new botPlayer(2, (byte)1);
 
 		// TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
 	/*	for(int i = 0; i < Game.NUM_PLAYERS; i++) {

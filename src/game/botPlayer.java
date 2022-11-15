@@ -1,7 +1,5 @@
 package game;
 
-import environment.Cell;
-import environment.Coordinate;
 import environment.Direction;
 
 import static java.lang.Thread.sleep;
@@ -11,8 +9,8 @@ import static java.lang.Thread.sleep;
  * @author luismota
  *
  */
-public class PhoneyHumanPlayer extends Player implements Runnable {
-	public PhoneyHumanPlayer(int id, byte strength) {
+public class botPlayer extends Player implements Runnable {
+	public botPlayer(int id, byte strength) {
 		super(id, strength);
 	}
 
@@ -27,7 +25,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable {
 	public Direction chosenDirection() {
 		Direction d = null;
 		int prob = (int)Math.round((Math.random() * 3));
-		System.out.println("Prob: "+ prob);
+
 		switch (prob) {
 			case 0 ->	d = Direction.UP;
 			case 1 ->	d = Direction.RIGHT;
@@ -43,7 +41,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable {
 		// TODO Auto-generated method stub
 
 		try {
-			sleep(10000);				//ENUNCIADO-> os players só podem começar a mover-se passado 10 segundos.
+			sleep(game.INITIAL_WAITING_TIME);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
