@@ -27,9 +27,28 @@ public class Cell {
 		return player;
 	}
 
+	//Criada e só é usada no início do jogo para colocar os players
+	public synchronized void spawnPlayer(Player player){
+		if(this.isOcupied()) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		this.player = player;
+		player.setCell(this);
+	}
+
+
+
+
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	
 	public synchronized void setPlayer(Player player) {
+
+		//Criar método confronto entre Players e colocar neste if
+
 		if(this.isOcupied())
 			try {
 				System.out.println("Jogador " + player.getIdentification() + " não foi colocado, esperando...");
@@ -38,7 +57,7 @@ public class Cell {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+
 		this.player = player;
 		player.setCell(this);
 		//notifyAll();
