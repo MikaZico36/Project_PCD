@@ -47,15 +47,17 @@ public class GameGuiMain implements Observer {
 		botPlayer playerO = new botPlayer(2, (byte)1);
 
 		// TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
-	/*	for(int i = 0; i < Game.NUM_PLAYERS; i++) {
+		for(int i = 0; i < Game.NUM_PLAYERS; i++) {
 			byte power = (byte) Math.round(Math.random()*3);
 			if(power == 0)	power = 1;
-			
-			game.addPlayerToGame(new PhoneyHumanPlayer(i, power));
 
-		}*/
-		game.addPlayerToGame(player);
-		game.addPlayerToGame(playerO);
+			botPlayer bot = new botPlayer(i, power);
+			game.addPlayerToGame(bot);
+			new Thread(bot).start();
+
+		}
+		//game.addPlayerToGame(player);
+		//game.addPlayerToGame(playerO);
 
 		//TODO Quando colocamos dois players na mesma Cell o primeiro a ser colocado anda mas o segundo fica parado
 
@@ -63,11 +65,11 @@ public class GameGuiMain implements Observer {
 		//game.addPlayerToGame(new PhoneyHumanPlayer(3, game, (byte)1));
 
 
-		Thread playert = new Thread(player);
-		Thread playerOne = new Thread(playerO);
+		//Thread playert = new Thread(player);
+		//Thread playerOne = new Thread(playerO);
 
-		playerOne.start();
-		playert.start();
+		//playerOne.start();
+		//playert.start();
 
 		
 	/*	try {

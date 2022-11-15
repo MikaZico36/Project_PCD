@@ -34,12 +34,11 @@ public abstract class Player extends Thread{
 
 	public synchronized void move() {
 		Cell currentCell = getCurrentCell();
+		if(currentCell == null)			return;
 
 		Coordinate destinationCoordinate = chosenDirection().getVector();
 		Cell destinationCell = game.getCell(currentCell.getPosition().translate(destinationCoordinate));  //Vou buscar a célula para onde o player quer se mover
-
-		if(currentCell == null || destinationCell == null)
-			return;
+		if(destinationCell == null)		return;
 
 		System.out.println(destinationCell.getCoordinate());
 
