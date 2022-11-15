@@ -17,7 +17,7 @@ public class PhoneyHumanPlayer extends Player implements Runnable {
 	}
 
 	public boolean isHumanPlayer() {
-		return true;
+		return false;
 	}
 
 	//Função que calcula de forma random para onde o player se vai mover 
@@ -40,6 +40,14 @@ public class PhoneyHumanPlayer extends Player implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+
+		try {
+			sleep(10000);				//ENUNCIADO-> os players só podem começar a mover-se passado 10 segundos.
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+
+
 		int counter = 0;
 		while (true) {
 			counter++;

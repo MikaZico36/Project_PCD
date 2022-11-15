@@ -43,21 +43,21 @@ public class Game extends Observable {
 	 * @param player O jogador que queremos adicionar
 	 * @throws InterruptedException 
 	 */
-	/*public synchronized void addPlayerToGame(Player player) throws InterruptedException {
+	public synchronized void addPlayerToGame(Player player) throws InterruptedException {
 		Cell initialPos=getRandomCell();
 		//Cell initialPos= getCell(new Coordinate(0,0));
 
 		new BoardThread(initialPos, player).start();
 
-	}*/
+	}
 	//APENAS USADA EM TESTES
-	public synchronized void addPlayerToGame(Player player) throws InterruptedException {
+	/*public synchronized void addPlayerToGame(Player player) throws InterruptedException {
 		//Cell initialPos=getRandomCell();
 		Cell initialPos= getCell(new Coordinate(10,10));
 
 		new BoardThread(initialPos, player).start();
 
-	}
+	}*/
 
 
 
