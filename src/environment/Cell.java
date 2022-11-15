@@ -5,12 +5,13 @@ import game.Player;
 
 public class Cell {
 	private Coordinate position;
-	private Game game = Game.getGame();
+	private Game game;
 	private Player player=null;
 	
-	public Cell(Coordinate position) {
+	public Cell(Coordinate position, Game g) {
 		super();
 		this.position = position;
+		this.game = g;
 	}
 
 	public Coordinate getPosition() {
@@ -38,11 +39,6 @@ public class Cell {
 		this.player = player;
 		player.setCell(this);
 	}
-
-
-
-
-	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	
 	public synchronized void setPlayer(Player player) {
 		//TODO este metodo e os metodos relacionados necessitam de um rework para distinguir spawn e confronto. Nao sei se esses metodos serao definidos nesta classe ou noutra

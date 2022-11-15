@@ -26,7 +26,7 @@ public class Game extends Observable {
 	
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) 
-				board[x][y] = new Cell(new Coordinate(x, y));
+				board[x][y] = new Cell(new Coordinate(x, y), this);
 	}
 	
 	/**
