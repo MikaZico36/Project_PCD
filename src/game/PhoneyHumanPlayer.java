@@ -12,10 +12,11 @@ import static java.lang.Thread.sleep;
  *
  */
 public class PhoneyHumanPlayer extends Player implements Runnable {
-	public PhoneyHumanPlayer(int id, Game game, byte strength) {
-		super(id, game, strength);
+	public PhoneyHumanPlayer(int id, byte strength) {
+		super(id, strength);
 	}
 
+	@Override
 	public boolean isHumanPlayer() {
 		return false;
 	}
@@ -25,13 +26,13 @@ public class PhoneyHumanPlayer extends Player implements Runnable {
 	@Override
 	public Direction chosenDirection() {
 		Direction d = null;
-		int prob = (int) Math.round((Math.random() * 3));
-		System.out.println(prob);
+		int prob = (int)Math.round((Math.random() * 3));
+		System.out.println("Prob: "+ prob);
 		switch (prob) {
-			case 0 -> d = Direction.UP;
-			case 1 -> d = Direction.RIGHT;
-			case 2 -> d = Direction.LEFT;
-			case 3 -> d = Direction.DOWN;
+			case 0 ->	d = Direction.UP;
+			case 1 ->	d = Direction.RIGHT;
+			case 2 ->	d = Direction.LEFT;
+			case 3 ->	d = Direction.DOWN;
 		}
 		return d;
 	}

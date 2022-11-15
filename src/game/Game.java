@@ -63,6 +63,8 @@ public class Game extends Observable {
 
 
 	public Cell getCell(Coordinate at) {
+		if(at.getX() >= DIMX || at.getX() < 0 || at.getY() >= DIMY || at.getY() < 0)
+			return null;
 		return board[at.x][at.y];
 	}
 

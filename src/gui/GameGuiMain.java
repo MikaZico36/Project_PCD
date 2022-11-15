@@ -45,15 +45,15 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 		
-		PhoneyHumanPlayer player = new PhoneyHumanPlayer(1, game, (byte)3);
-		PhoneyHumanPlayer playerO = new PhoneyHumanPlayer(2, game, (byte)1);
+		PhoneyHumanPlayer player = new PhoneyHumanPlayer(1, (byte)3);
+		PhoneyHumanPlayer playerO = new PhoneyHumanPlayer(2, (byte)1);
 
 		// TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
 	/*	for(int i = 0; i < Game.NUM_PLAYERS; i++) {
 			byte power = (byte) Math.round(Math.random()*3);
 			if(power == 0)	power = 1;
 			
-			game.addPlayerToGame(new PhoneyHumanPlayer(i, game, power));
+			game.addPlayerToGame(new PhoneyHumanPlayer(i, power));
 
 		}*/
 		game.addPlayerToGame(player);

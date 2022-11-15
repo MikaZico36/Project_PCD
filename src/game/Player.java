@@ -21,11 +21,8 @@ public abstract class Player  {
 	protected byte originalStrength;
 
 	// TODO: get player position from data in game
-	public Cell getCurrentCell() {
-		return position;
-	}
 
-	public Player(int id, Game game, byte strength) {	//TODO aplicar solitao
+	public Player(int id, byte strength) {	//TODO aplicar solitao
 		super();
 		this.id = id;
 		currentStrength=strength;
@@ -36,33 +33,25 @@ public abstract class Player  {
 	public abstract Direction chosenDirection();
 
 	public synchronized void move() {
-		//System.out.println("Posicao inicial: " + this.getCurrentCell().getPosition());
-		Cell current =getCurrentCell();
+		Cell currentCell = getCurrentCell();
 
-		Direction d = chosenDirection();
-		Coordinate c = d.getVector();
+		Coordinate destinationCoordinate = chosenDirection().getVector();
+		Cell destinationCell = game.getCell(currentCell.getPosition().translate(destinationCoordinate));  //Vou buscar a célula para onde o player quer se mover
 
-		System.out.println("PLayer ID antes do if " + this.id);
-		if(current == null || current.getPosition().translate(c).getX() >= 30 || current.getPosition().translate(c).getX() < 0 ||
-				current.getPosition().translate(c).getY() >= 30 || current.getPosition().translate(c).getY() <0 ){
-			//System.out.println("Entrei aqui");
-
+		if(currentCell == null || destinationCell == null)
 			return;
-		}
 
-		Cell nova = game.getCell(current.getPosition().translate(c));  //Vou buscar a célula para onde o player quer se mover
+		System.out.println(destinationCell.getCoordinate());
 
-		System.out.println(nova.getCoordinate());
+		destinationCell.setPlayer(this);	//Digo que o player agora faz parte dessa célula
+		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 
-
-		nova.setPlayer(this);  //Digo que o player agora faz parte dessa célula
-		this.setCell(nova); //Coloco a Cell position da classe Player = nova
-
-		game.getCell(current.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
+		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
 
 
 		Game.getGame().notifyChange();
 	}
+
 	public void setCell(Cell c) {
 		position = c;
 	}
@@ -71,6 +60,9 @@ public abstract class Player  {
 		return currentStrength;
 	}
 
+	public Cell getCurrentCell() {
+		return position;
+	}
 
 	public int getIdentification() {
 		return id;
