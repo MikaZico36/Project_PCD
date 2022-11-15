@@ -68,7 +68,7 @@ public class GameGuiMain implements Observer {
 
 		playerOne.start();
 		playert.start();
-		game.notifyChange();
+
 		
 	/*	try {
 			Thread.sleep(3000);

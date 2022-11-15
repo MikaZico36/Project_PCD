@@ -18,7 +18,7 @@ public class Cell {
 		return position;
 	}
 
-	public boolean isOcupied() {
+	public boolean isOccupied() {
 		return player!=null;
 	}
 
@@ -27,44 +27,36 @@ public class Cell {
 		return player;
 	}
 
-	//Criada e só é usada no início do jogo para colocar os players
+	//TODO NAO ESQUECER DE METER A PRIVATE DEPOIS DE FAZER MOVE PLAYER
+	public synchronized void setPlayer(Player player) {
+		//TODO este metodo e os metodos relacionados necessitam de um rework para distinguir spawn e confronto. Nao sei se esses metodos serao definidos nesta classe ou noutra
+
+		this.player = player;
+		player.setCell(this);
+		//notifyAll();
+
+		game.notifyChange();
+	}
+
 	public synchronized void spawnPlayer(Player player){
-		if(this.isOcupied()) {
+
+		while(this.isOccupied()) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
 		}
-		this.player = player;
-		player.setCell(this);
-	}
-	
-	public synchronized void setPlayer(Player player) {
-		//TODO este metodo e os metodos relacionados necessitam de um rework para distinguir spawn e confronto. Nao sei se esses metodos serao definidos nesta classe ou noutra
-		//Criar método confronto entre Players e colocar neste if
 
-		if(this.isOcupied())
-			try {
-				System.out.println("Jogador " + player.getIdentification() + " não foi colocado, esperando...");
-				wait();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		this.player = player;
-		player.setCell(this);
-		//notifyAll();
+		setPlayer(player);
 		System.out.println("O jogador " + player.getIdentification() + " foi adicionado.");
 	}
-	
 	public Coordinate getCoordinate() {
 		return position;
 	}
 	
 	public synchronized void unsetPlayer() {
-		if(!isOcupied())
+		if(!isOccupied())
 			return;
 		
 		player = null;

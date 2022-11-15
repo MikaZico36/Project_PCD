@@ -14,8 +14,8 @@ public class BoardThread extends Thread {
 	@Override
 	public void run() {
 		cell.spawnPlayer(player);
-		player.setCell(Game.getGame().getCell(cell.getPosition()));
-		Game.getGame().notifyChange();
+		//player.setCell(Game.getGame().getCell(cell.getPosition()));
+		//Game.getGame().notifyChange();
 	}
 
 }

@@ -18,7 +18,7 @@ public abstract class Player  {
 	protected Cell position;
 
 	private byte currentStrength;
-	protected byte originalStrength;
+	protected final byte originalStrength;
 
 	// TODO: get player position from data in game
 
