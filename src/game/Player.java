@@ -11,7 +11,7 @@ import environment.Direction;
  * @author luismota
  *
  */
-public abstract class Player  {
+public abstract class Player extends Thread{
 
 	protected Game game = Game.getGame();
 	private int id;
@@ -19,6 +19,7 @@ public abstract class Player  {
 
 	private byte currentStrength;
 	protected final byte originalStrength;
+	private boolean dead = false;
 
 	// TODO: get player position from data in game
 
@@ -43,13 +44,43 @@ public abstract class Player  {
 
 		System.out.println(destinationCell.getCoordinate());
 
+		if(destinationCell.isOccupied()) {
+			resolveConflict(destinationCell.getPlayer());
+			game.notifyChange();	//TODO ver se e mesmo necessario esta linha
+			return;
+		}
 		destinationCell.setPlayer(this);	//Digo que o player agora faz parte dessa célula
 		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 
 		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
 
 
-		Game.getGame().notifyChange();
+		game.notifyChange();
+	}
+
+	private void resolveConflict(Player enemy) {
+		byte enemyPower = enemy.getCurrentStrength();
+		if(enemyPower > getCurrentStrength())
+			kill(enemy, this);
+		else if(enemyPower < getCurrentStrength())
+			kill(this, enemy);
+		else {
+			int random = (int) Math.round(Math.random());
+			if(random == 0)		kill(enemy, this);
+			else 				kill(this, enemy);
+		}
+
+	}
+
+	public void die() {
+		this.dead = true;
+	}
+
+	private void kill(Player alivePlayer, Player deadPlayer) { //TODO ISTO ESTA INCOMPLETO
+		byte deadPlayerPoints = deadPlayer.getCurrentStrength();
+		deadPlayer.die();
+
+
 	}
 
 	public void setCell(Cell c) {
@@ -66,6 +97,10 @@ public abstract class Player  {
 
 	public int getIdentification() {
 		return id;
+	}
+
+	public boolean isDead() {
+		return dead;
 	}
 	
 	
