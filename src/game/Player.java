@@ -19,7 +19,6 @@ public abstract class Player extends Thread{
 
 	private byte currentStrength;
 	protected final byte originalStrength;
-	private boolean dead = false;
 
 	// TODO: get player position from data in game
 
@@ -61,34 +60,36 @@ public abstract class Player extends Thread{
 	private void resolveConflict(Player enemy) {
 		byte enemyPower = enemy.getCurrentStrength();
 		if(enemyPower > getCurrentStrength())
-			kill(enemy, this);
+			enemy.kill(this);
 		else if(enemyPower < getCurrentStrength())
-			kill(this, enemy);
+			this.kill(enemy);
 		else {
 			int random = (int) Math.round(Math.random());
-			if(random == 0)		kill(enemy, this);
-			else 				kill(this, enemy);
+			if(random == 0)		this.kill(enemy);
+			else 				enemy.kill(this);
 		}
 
 	}
 
-	public void die() {
-		this.dead = true;
-	}
-
-	private void kill(Player alivePlayer, Player deadPlayer) { //TODO ISTO ESTA INCOMPLETO
+	private void kill(Player deadPlayer) { //TODO ISTO ESTA INCOMPLETO
 		byte deadPlayerPoints = deadPlayer.getCurrentStrength();
-		deadPlayer.die();
 
-
+		this.setCurrentStrength((byte) (getCurrentStrength() + deadPlayerPoints));
+		deadPlayer.setCurrentStrength((byte) 0);
 	}
 
 	public void setCell(Cell c) {
 		position = c;
 	}
 
+	public byte getOriginalStrength() {
+		return originalStrength;
+	}
 	public byte getCurrentStrength() {
 		return currentStrength;
+	}
+	public void setCurrentStrength(byte strength) {
+		currentStrength = strength;
 	}
 
 	public Cell getCurrentCell() {
@@ -100,7 +101,7 @@ public abstract class Player extends Thread{
 	}
 
 	public boolean isDead() {
-		return dead;
+		return getCurrentStrength() == 0;
 	}
 	
 	

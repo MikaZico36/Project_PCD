@@ -38,34 +38,27 @@ public class botPlayer extends Player implements Runnable {
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 
 		try {
-			sleep(game.INITIAL_WAITING_TIME);
+			sleep(Game.INITIAL_WAITING_TIME);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 
 
 		int counter = 0;
-		while (true) {
+		while (!isDead()) {
 			counter++;
 			System.out.println("Counter = " + counter + " Player ID = " + this.getIdentification());
-			if (counter == originalStrength) {
+			if (counter == getOriginalStrength()) {
 				counter = 0;
 				//System.out.println("Counter dentro do if = " + counter);
 				synchronized (this) {
 					move();
-			/*try {
-				wait(Game.REFRESH_INTERVAL);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 				}
 			}
 			try {
-				sleep(game.REFRESH_INTERVAL);
+				sleep(Game.REFRESH_INTERVAL);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}

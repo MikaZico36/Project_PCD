@@ -27,13 +27,11 @@ public class Cell {
 		return player;
 	}
 
-	//TODO NAO ESQUECER DE METER A PRIVATE DEPOIS DE FAZER MOVE PLAYER
+
 	public synchronized void setPlayer(Player player) {
-		//TODO este metodo e os metodos relacionados necessitam de um rework para distinguir spawn e confronto. Nao sei se esses metodos serao definidos nesta classe ou noutra
 
 		this.player = player;
 		player.setCell(this);
-		//notifyAll();
 
 		game.notifyChange();
 	}
