@@ -1,9 +1,13 @@
 package game;
 
 
+import java.util.ArrayList;
 import java.util.Observable;
 import environment.Cell;
 import environment.Coordinate;
+import gui.GameGuiMain;
+
+import static java.lang.System.exit;
 
 public class Game extends Observable {
 
@@ -20,15 +24,23 @@ public class Game extends Observable {
 	protected Cell[][] board;
 
 	private static Game game = null;
-	
+
+	//TODO Verificar se isto está correto
+	private static ArrayList<Player> winners;
+
+	//Cores da mensagem de Vitória
+	private static final String ANSI_GREEN = "\u001B[32m";
+	private static final String ANSI_RESET = "\u001B[0m";
+
 	private Game() {
 		board = new Cell[Game.DIMX][Game.DIMY];
 	
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) 
 				board[x][y] = new Cell(new Coordinate(x, y), this);
+	winners =new ArrayList<>();
 	}
-	
+
 	/**
 	 * De modo a obter sempre a mesma instância da Classe Game sem ter que passar por variáveis, implementou-se o padrão singleton
 	 * @return Instância da classe Game
@@ -59,8 +71,35 @@ public class Game extends Observable {
 
 	}*/
 
+	//TODO Verificar se faz sentido isto
+	//Adiciona vencedores ao Vetor que regista os vencedores.
+	public synchronized void addWinner(Player winner) {
 
+		if (winners.size() < NUM_FINISHED_PLAYERS_TO_END_GAME) {
+			winners.add(winner);
+		}
+		//TODO Termina o jogo Verificar se está certo
+		if (winners.size() >= NUM_FINISHED_PLAYERS_TO_END_GAME) {
+			StringBuilder winnersList = new StringBuilder(new String("Os vencedores são os Players "));
 
+			for (Player p : winners) {
+				String ap = new String (String.valueOf(p.getIdentification()) + ", ");
+				winnersList.append(ap);
+			}
+			System.out.println( ANSI_GREEN + winnersList + ANSI_RESET);
+
+			exit(0);	//Termina o jogo
+		}
+	}
+
+	//Retorna a Lista de Players
+	public synchronized ArrayList<Player> getWinners(){
+		return winners;
+	}
+	//Retorna o número de vencedores
+	public synchronized int numberWinner(){
+		return winners.size();
+	}
 
 	public Cell getCell(Coordinate at) {
 		if(at.getX() >= DIMX || at.getX() < 0 || at.getY() >= DIMY || at.getY() < 0)

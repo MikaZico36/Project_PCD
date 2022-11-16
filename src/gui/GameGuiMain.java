@@ -22,6 +22,8 @@ public class GameGuiMain implements Observer {
 
 	}
 
+
+
 	private void buildGui() {
 		boardGui = new BoardJComponent(game);
 		frame.add(boardGui);
@@ -33,29 +35,31 @@ public class GameGuiMain implements Observer {
 	}
 
 	public void init() throws InterruptedException  {
-		frame.setVisible(true);
 
-		// Demo players, should be deleted
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		botPlayer player = new botPlayer(1, (byte)3);
-		botPlayer playerO = new botPlayer(2, (byte)1);
+			frame.setVisible(true);
 
-		// TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
-		for(int i = 0; i < Game.NUM_PLAYERS; i++) {
-			byte power = (byte) Math.round(Math.random()*3);
-			if(power == 0)	power = 1;
+			// Demo players, should be deleted
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
-			botPlayer bot = new botPlayer(i, power);
-			game.addPlayerToGame(bot);
-			new Thread(bot).start();
+			//botPlayer player = new botPlayer(1, (byte)1);
+			//botPlayer playerO = new botPlayer(2, (byte)1);
 
-		}
+			// TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
+			for (int i = 0; i < Game.NUM_PLAYERS; i++) {
+				byte power = (byte) Math.round(Math.random() * 3);
+				if (power == 0) power = 1;
+
+				botPlayer bot = new botPlayer(i, power);
+				game.addPlayerToGame(bot);
+				new Thread(bot).start();
+
+			}
+
 		//game.addPlayerToGame(player);
 		//game.addPlayerToGame(playerO);
 
@@ -99,5 +103,7 @@ public class GameGuiMain implements Observer {
 	public static void main(String[] args) throws InterruptedException {
 		GameGuiMain game = new GameGuiMain();
 		game.init();
+
+
 	}
 }

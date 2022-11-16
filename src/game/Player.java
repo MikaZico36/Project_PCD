@@ -40,7 +40,7 @@ public abstract class Player extends Thread{
 		Cell destinationCell = game.getCell(currentCell.getPosition().translate(destinationCoordinate));  //Vou buscar a célula para onde o player quer se mover
 		if(destinationCell == null)		return;
 
-		System.out.println(destinationCell.getCoordinate());
+		//System.out.println(destinationCell.getCoordinate());
 
 		if(destinationCell.isOccupied()) {
 			resolveConflict(destinationCell.getPlayer());
