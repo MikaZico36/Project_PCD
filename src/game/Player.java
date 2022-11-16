@@ -20,6 +20,8 @@ public abstract class Player extends Thread{
 	private byte currentStrength;
 	protected final byte originalStrength;
 
+	protected final byte MAX_STRENGTH = 10;
+
 	// TODO: get player position from data in game
 
 	public Player(int id, byte strength) {	//TODO aplicar solitao
