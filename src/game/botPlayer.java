@@ -47,7 +47,7 @@ public class botPlayer extends Player implements Runnable {
 
 
 		int counter = 0;
-		while (!isDead() && this.getCurrentStrength() < 10) {
+		while (!isDead() && this.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
 			counter++;
 			//System.out.println("Counter = " + counter + " Player ID = " + this.getIdentification());
 			if (counter == getOriginalStrength()) {
@@ -64,7 +64,7 @@ public class botPlayer extends Player implements Runnable {
 			}
 
 		}
-		if (this.getCurrentStrength() >= 10){ // TODO possivelmente igual no Player generico
+		if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH){
 			game.addWinner(this);
 			System.out.println(this.getCurrentCell().getCoordinate());
 			this.setCurrentStrength((byte) 0);	//Coloco a pontuação a 0 depois de ganhar para que não possa comer outros players
