@@ -64,11 +64,11 @@ public class botPlayer extends Player implements Runnable {
 			}
 
 		}
-		if (this.getCurrentStrength() >= 10){
+		if (this.getCurrentStrength() >= 10){ // TODO possivelmente igual no Player generico
 			game.addWinner(this);
 			System.out.println(this.getCurrentCell().getCoordinate());
 			this.setCurrentStrength((byte) 0);	//Coloco a pontuação a 0 depois de ganhar para que não possa comer outros players
-	}
+		}
 	}
 
 

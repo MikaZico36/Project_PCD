@@ -26,7 +26,7 @@ public class Game extends Observable {
 	private static Game game = null;
 
 	//TODO Verificar se isto está correto
-	private static ArrayList<Player> winners;
+	private ArrayList<Player> winners;
 
 	//Cores da mensagem de Vitória
 	private static final String ANSI_GREEN = "\u001B[32m";
@@ -38,7 +38,7 @@ public class Game extends Observable {
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) 
 				board[x][y] = new Cell(new Coordinate(x, y), this);
-	winners =new ArrayList<>();
+		winners =new ArrayList<>();
 	}
 
 	/**
@@ -75,14 +75,14 @@ public class Game extends Observable {
 	//Adiciona vencedores ao Vetor que regista os vencedores.
 	public synchronized void addWinner(Player winner) {
 
-		if (winners.size() < NUM_FINISHED_PLAYERS_TO_END_GAME) {
-			winners.add(winner);
+		if (getWinners().size() < NUM_FINISHED_PLAYERS_TO_END_GAME) {
+			getWinners().add(winner);
 		}
 		//TODO Termina o jogo Verificar se está certo
-		if (winners.size() >= NUM_FINISHED_PLAYERS_TO_END_GAME) {
+		if (getWinners().size() >= NUM_FINISHED_PLAYERS_TO_END_GAME) {
 			StringBuilder winnersList = new StringBuilder(new String("Os vencedores são os Players "));
 
-			for (Player p : winners) {
+			for (Player p : getWinners()) {
 				String ap = new String (String.valueOf(p.getIdentification()) + ", ");
 				winnersList.append(ap);
 			}
@@ -95,10 +95,6 @@ public class Game extends Observable {
 	//Retorna a Lista de Players
 	public synchronized ArrayList<Player> getWinners(){
 		return winners;
-	}
-	//Retorna o número de vencedores
-	public synchronized int numberWinner(){
-		return winners.size();
 	}
 
 	public Cell getCell(Coordinate at) {
