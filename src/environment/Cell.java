@@ -40,6 +40,7 @@ public class Cell {
 
 		while(this.isOccupied()) {
 			try {
+				System.out.println("Estou à espera");
 				wait();
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);

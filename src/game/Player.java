@@ -16,10 +16,10 @@ public abstract class Player extends Thread{
 	protected Game game = Game.getGame();
 	private int id;
 	protected Cell position;
-
 	private byte currentStrength;
 	protected final byte originalStrength;
 
+	
 	// TODO: get player position from data in game
 
 	public Player(int id, byte strength) {	//TODO aplicar solitao
@@ -47,7 +47,7 @@ public abstract class Player extends Thread{
 			game.notifyChange();	//TODO ver se e mesmo necessario esta linha
 			return;
 		}
-		destinationCell.setPlayer(this);	//Digo que o player agora faz parte dessa célula
+		destinationCell.setPlayer(this);	//Digo que o "player" agora faz parte dessa célula
 		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 
 		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null

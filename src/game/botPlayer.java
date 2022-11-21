@@ -1,5 +1,6 @@
 package game;
 
+import environment.Cell;
 import environment.Direction;
 
 import static java.lang.Thread.sleep;
@@ -35,9 +36,14 @@ public class botPlayer extends Player implements Runnable {
 		return d;
 	}
 
+	public void setCurrentCell(Cell c){
+		this.position = c;
+	}
 
 	@Override
 	public void run() {
+
+			game.getRandomCell().spawnPlayer(this);
 
 		try {
 			sleep(Game.INITIAL_WAITING_TIME);

@@ -56,7 +56,7 @@ public class GameGuiMain implements Observer {
 
 				botPlayer bot = new botPlayer(i, power);
 				game.addPlayerToGame(bot);
-				new Thread(bot).start();
+				//new Thread(bot).start();
 
 			}
 
