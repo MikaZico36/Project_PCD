@@ -2,16 +2,23 @@ package gui;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.CyclicBarrier;
+
 import game.Game;
 import game.Player;
+import game.Podio;
 import game.botPlayer;
 
 import javax.swing.JFrame;
+
+import static java.lang.System.exit;
 
 public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
 	private Game game;
+
+
 
 	public GameGuiMain() {
 		super();
@@ -59,7 +66,6 @@ public class GameGuiMain implements Observer {
 				//new Thread(bot).start();
 
 			}
-
 		//game.addPlayerToGame(player);
 		//game.addPlayerToGame(playerO);
 

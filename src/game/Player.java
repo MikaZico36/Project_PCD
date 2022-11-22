@@ -6,6 +6,8 @@ import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 
+import java.util.concurrent.CyclicBarrier;
+
 /**
  * Represents a player.
  * @author luismota
@@ -18,8 +20,9 @@ public abstract class Player extends Thread{
 	protected Cell position;
 	private byte currentStrength;
 	protected final byte originalStrength;
+	protected Podio podio;
 
-	
+
 	// TODO: get player position from data in game
 
 	public Player(int id, byte strength) {	//TODO aplicar solitao
@@ -27,6 +30,7 @@ public abstract class Player extends Thread{
 		this.id = id;
 		currentStrength=strength;
 		originalStrength=strength;
+		podio = Game.getGame().getPodio();
 	}
 
 	public abstract boolean isHumanPlayer();
@@ -43,6 +47,15 @@ public abstract class Player extends Thread{
 		//System.out.println(destinationCell.getCoordinate());
 
 		if(destinationCell.isOccupied()) {
+			if(destinationCell.getPlayer().getCurrentStrength() == 10 ||
+					destinationCell.getPlayer().getCurrentStrength() == 0){
+				try {
+					sleep(Game.MAX_WAITING_TIME_FOR_MOVE);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+				return;
+			}
 			resolveConflict(destinationCell.getPlayer());
 			game.notifyChange();	//TODO ver se e mesmo necessario esta linha
 			return;
@@ -74,9 +87,10 @@ public abstract class Player extends Thread{
 		byte deadPlayerPoints = deadPlayer.getCurrentStrength();
 
 		this.setCurrentStrength((byte) (getCurrentStrength() + deadPlayerPoints));
+		if(this.getCurrentStrength() >Game.MAX_PLAYER_STRENGTH )
+			this.setCurrentStrength(Game.MAX_PLAYER_STRENGTH);
 		deadPlayer.setCurrentStrength((byte) 0);
 	}
-
 	public void setCell(Cell c) {
 		position = c;
 	}

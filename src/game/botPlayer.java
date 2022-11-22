@@ -3,6 +3,9 @@ package game;
 import environment.Cell;
 import environment.Direction;
 
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+
 import static java.lang.Thread.sleep;
 
 /**
@@ -25,25 +28,25 @@ public class botPlayer extends Player implements Runnable {
 	@Override
 	public Direction chosenDirection() {
 		Direction d = null;
-		int prob = (int)Math.round((Math.random() * 3));
+		int prob = (int) Math.round((Math.random() * 3));
 
 		switch (prob) {
-			case 0 ->	d = Direction.UP;
-			case 1 ->	d = Direction.RIGHT;
-			case 2 ->	d = Direction.LEFT;
-			case 3 ->	d = Direction.DOWN;
+			case 0 -> d = Direction.UP;
+			case 1 -> d = Direction.RIGHT;
+			case 2 -> d = Direction.LEFT;
+			case 3 -> d = Direction.DOWN;
 		}
 		return d;
 	}
 
-	public void setCurrentCell(Cell c){
+	public void setCurrentCell(Cell c) {
 		this.position = c;
 	}
 
 	@Override
 	public void run() {
 
-			game.getRandomCell().spawnPlayer(this);
+		game.getRandomCell().spawnPlayer(this);
 
 		try {
 			sleep(Game.INITIAL_WAITING_TIME);
@@ -70,12 +73,22 @@ public class botPlayer extends Player implements Runnable {
 			}
 
 		}
-		if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH){
-			game.addWinner(this);
-			System.out.println(this.getCurrentCell().getCoordinate());
-			this.setCurrentStrength((byte) 0);	//Coloco a pontuação a 0 depois de ganhar para que não possa comer outros players
+		if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH) {
+			//game.addWinner(this);
+			//System.out.println(this.getCurrentCell().getCoordinate());
+			//	this.setCurrentStrength((byte) 0);    //Coloco a pontuação a 0 depois de ganhar para que não possa comer outros players
+			//}
+
+			podio.LugaresPodio(this);
+			try {
+				System.out.println("Entrei no try");
+				podio.await();
+			} catch (InterruptedException e) {
+				System.out.println("Entrei no primeiro catch");
+				throw new RuntimeException(e);
+			}
+
 		}
+
 	}
-
-
 }
