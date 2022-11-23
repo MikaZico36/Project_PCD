@@ -81,10 +81,8 @@ public class botPlayer extends Player implements Runnable {
 
 			podio.LugaresPodio(this);
 			try {
-				System.out.println("Entrei no try");
 				podio.await();
 			} catch (InterruptedException e) {
-				System.out.println("Entrei no primeiro catch");
 				throw new RuntimeException(e);
 			}
 

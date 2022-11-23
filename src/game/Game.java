@@ -28,8 +28,6 @@ public class Game extends Observable {
 	//TODO Verificar se isto está correto
 	private Podio podio;
 	//Cores da mensagem de Vitória
-	private static final String ANSI_GREEN = "\u001B[32m";
-	private static final String ANSI_RESET = "\u001B[0m";
 
 	private Game() {
 		board = new Cell[Game.DIMX][Game.DIMY];
@@ -57,8 +55,8 @@ public class Game extends Observable {
 	public synchronized void addPlayerToGame(Player player) throws InterruptedException {
 		//Cell initialPos=getRandomCell();
 		//Cell initialPos= getCell(new Coordinate(15 + player.getIdentification(),15));
-		new Thread(player).start();
-
+		Thread t = new Thread(player);
+		t.start();
 	}
 	//APENAS USADA EM TESTES
 	/*public synchronized void addPlayerToGame(Player player) throws InterruptedException {
@@ -96,6 +94,8 @@ public class Game extends Observable {
 	public synchronized Podio getPodio() {
 		return podio;
 	}
+
+	public synchronized void setPodio(Podio podio) {this.podio = podio;}
 
 
 	public Cell getCell(Coordinate at) {
