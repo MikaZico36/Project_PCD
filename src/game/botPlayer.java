@@ -54,7 +54,7 @@ public class botPlayer extends Player {
 			throw new RuntimeException(e);
 		}
 
-		int counter = 0;
+		int counter = 0;	// Usa-se esta variavel para determinar se o ciclo atual do while é quando o bot se deve mexer, de acordo com o seu original strength
 		while (!isDead() && this.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH && !podio.isFinished()) {
 			counter++;
 			//System.out.println("Counter = " + counter + " Player ID = " + this.getIdentification());
@@ -73,10 +73,6 @@ public class botPlayer extends Player {
 
 		}
 		if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH) {
-			//game.addWinner(this);
-			//System.out.println(this.getCurrentCell().getCoordinate());
-			//	this.setCurrentStrength((byte) 0);    //Coloco a pontuação a 0 depois de ganhar para que não possa comer outros players
-			//}
 
 			podio.acabei(this);	//TODO Maybe mandar isto para o player geral se fizer sentido
 			try {

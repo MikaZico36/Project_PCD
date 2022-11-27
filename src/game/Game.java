@@ -49,7 +49,7 @@ public class Game extends Observable {
 	 * @param player O jogador que queremos adicionar
 	 * @throws InterruptedException 
 	 */
-	public synchronized void addPlayerToGame(Player player) throws InterruptedException {
+	public void addPlayerToGame(Player player)  {
 		player.start();
 	}
 
