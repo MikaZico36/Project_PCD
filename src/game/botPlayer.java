@@ -78,7 +78,7 @@ public class botPlayer extends Player {
 			//	this.setCurrentStrength((byte) 0);    //Coloco a pontuação a 0 depois de ganhar para que não possa comer outros players
 			//}
 
-			podio.acabei(this);
+			podio.acabei(this);	//TODO Maybe mandar isto para o player geral se fizer sentido
 			try {
 				podio.await();
 			} catch (InterruptedException e) {

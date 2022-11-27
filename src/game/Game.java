@@ -26,8 +26,7 @@ public class Game extends Observable {
 	private static Game game = null;
 
 	//TODO Verificar se isto está correto
-	private Podio podio;
-	//Cores da mensagem de Vitória
+	private Podio podio = Podio.getPodio();
 
 	private Game() {
 		board = new Cell[Game.DIMX][Game.DIMY];
@@ -35,8 +34,6 @@ public class Game extends Observable {
 		for (int x = 0; x < Game.DIMX; x++)
 			for (int y = 0; y < Game.DIMY; y++)
 				board[x][y] = new Cell(new Coordinate(x, y), this);
-
-		podio = Podio.getPodio();
 	}
 	/**
 	 * De modo a obter sempre a mesma instância da Classe Game sem ter que passar por variáveis, implementou-se o padrão singleton
@@ -53,49 +50,13 @@ public class Game extends Observable {
 	 * @throws InterruptedException 
 	 */
 	public synchronized void addPlayerToGame(Player player) throws InterruptedException {
-		//Cell initialPos=getRandomCell();
-		//Cell initialPos= getCell(new Coordinate(15 + player.getIdentification(),15));
-		Thread t = new Thread(player);
-		t.start();
+		player.start();
 	}
-	//APENAS USADA EM TESTES
-	/*public synchronized void addPlayerToGame(Player player) throws InterruptedException {
-		//Cell initialPos=getRandomCell();
-		Cell initialPos= getCell(new Coordinate(10,10));
 
-		new BoardThread(initialPos, player).start();
-
-	}*/
-
-	//TODO Verificar se faz sentido isto
-	//Adiciona vencedores ao Vetor que regista os vencedores.
-
-		//TODO Termina o jogo Verificar se está certo
-	/*	if (getWinners().size() >= NUM_FINISHED_PLAYERS_TO_END_GAME) {
-			StringBuilder winnersList = new StringBuilder(new String("Os vencedores são os Players "));
-
-			for (Player p : getWinners()) {
-				String ap = new String (String.valueOf(p.getIdentification()) + ", ");
-				winnersList.append(ap);
-			}
-			System.out.println( ANSI_GREEN + winnersList + ANSI_RESET);
-
-			exit(0);	//Termina o jogo
-		}
-		System.out.println("Vou entrar no if");
-		if(podio.getPosition() >= NUM_FINISHED_PLAYERS_TO_END_GAME){
-			System.out.println("Entrei no if");
-			exit(0);
-		}*/
-
-
-	//Retorna a Lista de Players
-
-	public synchronized Podio getPodio() {
+	public Podio getPodio() {
 		return podio;
 	}
 
-	public synchronized void setPodio(Podio podio) {this.podio = podio;}
 
 
 	public Cell getCell(Coordinate at) {

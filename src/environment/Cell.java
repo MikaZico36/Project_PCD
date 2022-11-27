@@ -40,7 +40,7 @@ public class Cell {
 
 		while(this.isOccupied()) {
 			try {
-				System.out.println("Estou à espera");
+				System.out.println("Jogador " + player.getIdentification() + " nao pode ser colocado, esperando...");
 				wait();
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
