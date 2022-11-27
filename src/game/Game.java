@@ -36,7 +36,7 @@ public class Game extends Observable {
 			for (int y = 0; y < Game.DIMY; y++)
 				board[x][y] = new Cell(new Coordinate(x, y), this);
 
-		podio = new Podio();
+		podio = Podio.getPodio();
 	}
 	/**
 	 * De modo a obter sempre a mesma instância da Classe Game sem ter que passar por variáveis, implementou-se o padrão singleton

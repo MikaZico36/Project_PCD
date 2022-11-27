@@ -13,7 +13,7 @@ import static java.lang.Thread.sleep;
  * @author luismota
  *
  */
-public class botPlayer extends Player implements Runnable {
+public class botPlayer extends Player {
 	public botPlayer(int id, byte strength, Podio podio) {
 		super(id, strength, podio);
 	}
@@ -85,6 +85,8 @@ public class botPlayer extends Player implements Runnable {
 				throw new RuntimeException(e);
 			}
 		}
-		notifyAll();
+		synchronized (this) {
+			notifyAll();
+		}
 	}
-	}
+}

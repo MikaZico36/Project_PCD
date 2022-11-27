@@ -1,12 +1,13 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.concurrent.CountDownLatch;
 
-import static java.lang.System.exit;
+import static java.lang.Thread.sleep;
 
-public class Podio implements Runnable{
+public class Podio extends Thread{
     private int position;
+
+    private static Podio this_Podio = null;
     private boolean isFinished = false;
     private ArrayList<Player> podio;
     public static final String ANSI_RESET = "\u001B[0m";
@@ -15,20 +16,28 @@ public class Podio implements Runnable{
     public static final String ANSI_GREEN = "\u001B[32m";
 
 
-    public Podio(){
+    private Podio(){
         position = 0;
         podio = new ArrayList<>();
     }
 
+    public static Podio getPodio(){
+        if(this_Podio == null)
+            this_Podio = new Podio();
+    return this_Podio;
+    }
+
+
+
     public synchronized void acabei(Player player){
-        podio.add(position,player);
+        podio.add(position,player); //TODO MUDAR
         position++;
         System.out.println("Podio " + isFinished  + " " + position);
         if(position== 3)
             isFinished=true;
     }
 
-    public synchronized boolean isFinished() {
+    public boolean isFinished() {
         return isFinished;
     }
 
@@ -40,35 +49,30 @@ public class Podio implements Runnable{
             wait();
     }
 
-    public synchronized void LugaresPodio() {
+    private void lugaresPodio() {
         System.out.println("Entrei no Lugar");
         if (position >= Game.NUM_FINISHED_PLAYERS_TO_END_GAME) {
-            for (int i = 0; i < podio.size(); i++) {
-                int lugar = i + 1;
-                switch (lugar) {
-                    case 1 -> System.out.println(ANSI_RED + "O " + lugar + " lugar é o Player... " + podio.get(i).getIdentification() + ANSI_RESET);
-                    case 2 -> System.out.println(ANSI_GREEN + "O " + lugar + " lugar é o Player... " + podio.get(i).getIdentification() + ANSI_RESET);
-                    case 3 -> System.out.println(ANSI_BLUE + "O " + lugar + " lugar é o Player... " + podio.get(i).getIdentification() + ANSI_RESET);
+            for (int i = 1; i <= podio.size(); i++) {
+                switch (i) {
+                    case 1 -> System.out.println(ANSI_RED + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
+                    case 2 -> System.out.println(ANSI_GREEN + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
+                    case 3 -> System.out.println(ANSI_BLUE + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
                 }
             }
-            exit(0);
         }
     }
 
 @Override
     public void run(){
-        while(!isFinished) {
+        while(!isFinished ) {
             try {
-                System.out.println("Vou esperar");
-                wait(2000);
-                System.out.println("Acordei");
+                wait();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
         System.out.println("saí do wait do run");
-    LugaresPodio();
-    isFinished = true;
+    lugaresPodio();
     }
 
 
