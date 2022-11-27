@@ -14,8 +14,8 @@ import static java.lang.Thread.sleep;
  *
  */
 public class botPlayer extends Player implements Runnable {
-	public botPlayer(int id, byte strength) {
-		super(id, strength);
+	public botPlayer(int id, byte strength, Podio podio) {
+		super(id, strength, podio);
 	}
 
 	@Override
@@ -54,9 +54,8 @@ public class botPlayer extends Player implements Runnable {
 			throw new RuntimeException(e);
 		}
 
-
 		int counter = 0;
-		while (!isDead() && this.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
+		while (!isDead() && this.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH && !podio.isFinished()) {
 			counter++;
 			//System.out.println("Counter = " + counter + " Player ID = " + this.getIdentification());
 			if (counter == getOriginalStrength()) {
@@ -79,14 +78,13 @@ public class botPlayer extends Player implements Runnable {
 			//	this.setCurrentStrength((byte) 0);    //Coloco a pontuação a 0 depois de ganhar para que não possa comer outros players
 			//}
 
-			podio.LugaresPodio(this);
+			podio.acabei(this);
 			try {
 				podio.await();
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-
 		}
-
+		notifyAll();
 	}
-}
+	}

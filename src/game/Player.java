@@ -25,12 +25,12 @@ public abstract class Player extends Thread{
 
 	// TODO: get player position from data in game
 
-	public Player(int id, byte strength) {	//TODO aplicar solitao
+	public Player(int id, byte strength, Podio podio) {	//TODO aplicar solitao
 		super();
 		this.id = id;
 		currentStrength=strength;
 		originalStrength=strength;
-		podio = Game.getGame().getPodio();
+		this.podio = podio;
 	}
 
 	public abstract boolean isHumanPlayer();
@@ -83,7 +83,7 @@ public abstract class Player extends Thread{
 
 	}
 
-	private void kill(Player deadPlayer) { //TODO ISTO ESTA INCOMPLETO
+	private void kill(Player deadPlayer) {
 		byte deadPlayerPoints = deadPlayer.getCurrentStrength();
 
 		this.setCurrentStrength((byte) (getCurrentStrength() + deadPlayerPoints));

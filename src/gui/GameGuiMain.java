@@ -55,13 +55,16 @@ public class GameGuiMain implements Observer {
 			}
 
 			//botPlayer player = new botPlayer(1, (byte)1);
-			//botPlayer playerO = new botPlayer(2, (byte)1);
+		//botPlayer playerO = new botPlayer(2, (byte)1);
+		Thread a = new Thread(game.getPodio());
+		a.start();
+
 		// TODO no fim tirar comentarios para ter 90 jogadores (so fazer depois de implementar confronto)
 			for (int i = 0; i < Game.NUM_PLAYERS; i++) {
 				byte power = (byte) Math.round(Math.random() * 3);
 				if (power == 0) power = 1;
 
-				botPlayer bot = new botPlayer(i, power);
+				botPlayer bot = new botPlayer(i, power, game.getPodio());
 				game.addPlayerToGame(bot);
 				//new Thread(bot).start();
 
