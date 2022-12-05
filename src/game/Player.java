@@ -25,7 +25,7 @@ public abstract class Player extends Thread{
 
 	// TODO: get player position from data in game
 
-	public Player(int id, byte strength, Podio podio) {	//TODO aplicar solitao
+	public Player(int id, byte strength, Podio podio) {
 		super();
 		this.id = id;
 		currentStrength=strength;

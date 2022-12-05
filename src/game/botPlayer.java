@@ -3,9 +3,6 @@ package game;
 import environment.Cell;
 import environment.Direction;
 
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-
 import static java.lang.Thread.sleep;
 
 /**
@@ -74,7 +71,7 @@ public class botPlayer extends Player {
 		}
 		if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH) {
 
-			podio.acabei(this);	//TODO Maybe mandar isto para o player geral se fizer sentido
+			podio.countDown(this);	//TODO Maybe mandar isto para o player geral se fizer sentido
 			try {
 				podio.await();
 			} catch (InterruptedException e) {
@@ -82,7 +79,7 @@ public class botPlayer extends Player {
 			}
 		}
 		synchronized (this) {
-			notifyAll();
+			notifyAll();		//TODO ESTAMOS A NOTIFICAR O QUE?
 		}
 	}
 }

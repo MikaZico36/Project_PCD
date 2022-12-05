@@ -26,7 +26,7 @@ public class Game extends Observable {
 	private static Game game = null;
 
 	//TODO Verificar se isto está correto
-	private Podio podio = Podio.getPodio();
+	private Podio podio = new Podio(NUM_FINISHED_PLAYERS_TO_END_GAME);
 
 	private Game() {
 		board = new Cell[Game.DIMX][Game.DIMY];

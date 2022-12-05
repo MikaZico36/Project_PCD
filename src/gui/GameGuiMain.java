@@ -53,7 +53,7 @@ public class GameGuiMain implements Observer {
 				e.printStackTrace();
 			}
 
-		game.getPodio().start();
+		//game.getPodio().start();
 
 			for (int i = 0; i < Game.NUM_PLAYERS; i++) {
 				byte power = (byte) Math.round(Math.random() * 3);
