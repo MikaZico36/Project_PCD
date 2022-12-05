@@ -116,12 +116,6 @@ public abstract class Player extends Thread{
 	public boolean isDead() {
 		return getCurrentStrength() == 0;
 	}
-	
-	
-	/*private void changePosition(Coordinate c) {
-		position.setCoordinate(c);
-	}*/ //TODO MAYBE REMOVE THIS
-
 
 	@Override
 	public String toString() {

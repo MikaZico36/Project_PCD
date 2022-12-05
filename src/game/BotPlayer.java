@@ -10,8 +10,8 @@ import static java.lang.Thread.sleep;
  * @author luismota
  *
  */
-public class botPlayer extends Player {
-	public botPlayer(int id, byte strength, Podio podio) {
+public class BotPlayer extends Player {
+	public BotPlayer(int id, byte strength, Podio podio) {
 		super(id, strength, podio);
 	}
 
@@ -71,7 +71,7 @@ public class botPlayer extends Player {
 		}
 		if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH) {
 
-			podio.countDown(this);	//TODO Maybe mandar isto para o player geral se fizer sentido
+			podio.countDown(this);	// TODO Maybe mandar isto para o player geral se fizer sentido
 			try {
 				podio.await();
 			} catch (InterruptedException e) {
@@ -79,7 +79,7 @@ public class botPlayer extends Player {
 			}
 		}
 		synchronized (this) {
-			notifyAll();		//TODO ESTAMOS A NOTIFICAR O QUE?
+			notifyAll();		// TODO ESTAMOS A NOTIFICAR O QUE?
 		}
 	}
 }

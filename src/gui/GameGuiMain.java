@@ -1,18 +1,12 @@
 package gui;
 
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.CyclicBarrier;
 
 import game.Game;
-import game.Player;
-import game.Podio;
-import game.botPlayer;
+import game.BotPlayer;
 
 import javax.swing.JFrame;
-
-import static java.lang.System.exit;
 
 public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
@@ -56,10 +50,10 @@ public class GameGuiMain implements Observer {
 		//game.getPodio().start();
 
 			for (int i = 0; i < Game.NUM_PLAYERS; i++) {
-				byte power = (byte) Math.round(Math.random() * 3);
+				byte power = (byte) Math.round(Math.random() * Game.MAX_INITIAL_STRENGTH);
 				if (power == 0) power = 1;
 
-				botPlayer bot = new botPlayer(i, power, game.getPodio());
+				BotPlayer bot = new BotPlayer(i, power, game.getPodio());
 				game.addPlayerToGame(bot);
 
 			}
