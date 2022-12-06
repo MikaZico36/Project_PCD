@@ -1,17 +1,21 @@
 package environment;
 
 import game.Game;
+import game.Lock;
 import game.Player;
 
 public class Cell {
 	private Coordinate position;
 	private Game game;
 	private Player player=null;
+
+	private Lock lock;
 	
 	public Cell(Coordinate position, Game g) {
 		super();
 		this.position = position;
 		this.game = g;
+		lock = new Lock();
 	}
 
 	public Coordinate getPosition() {
@@ -29,15 +33,15 @@ public class Cell {
 
 
 	public synchronized void setPlayer(Player player) {
-
+		lock.tryUnLock();
+		lock.setLocked();
 		this.player = player;
 		player.setCell(this);
-
 		game.notifyChange();
+		lock.unLocked();
 	}
 
-	public synchronized void spawnPlayer(Player player){
-
+	public synchronized void spawnPlayer(Player player) {
 		while(this.isOccupied()) {
 			try {
 				System.out.println("Jogador " + player.getIdentification() + " nao pode ser colocado, esperando...");
@@ -55,12 +59,13 @@ public class Cell {
 	}
 	
 	public synchronized void unsetPlayer() {
+		lock.tryUnLock();
 		if(!isOccupied())
 			return;
 		
 		player = null;
 		game.notifyChange();
-		notifyAll();
+		lock.unLocked();
 		
 		
 	}

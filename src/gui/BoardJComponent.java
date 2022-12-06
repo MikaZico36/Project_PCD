@@ -95,6 +95,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 		switch(e.getKeyCode()){
 		case KeyEvent.VK_LEFT :
 			lastPressedDirection=environment.Direction.LEFT;
+			System.out.println(e.getKeyCode());
 			break;
 		case KeyEvent.VK_RIGHT:
 			lastPressedDirection=environment.Direction.RIGHT;

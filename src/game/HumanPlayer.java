@@ -1,6 +1,8 @@
 package game;
 
 import environment.Direction;
+import gui.BoardJComponent;
+import gui.GameGuiMain;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,7 +27,8 @@ public class HumanPlayer extends Player{
     @Override
     public Direction chosenDirection() {
         //TODO Human Player chosenDirection() method
-        return null;
+        Direction d = GameGuiMain.getBoardGui().getLastPressedDirection();
+        return d;
     }
 
     @Override

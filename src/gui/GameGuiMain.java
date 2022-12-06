@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
-	private BoardJComponent boardGui;
+	private static BoardJComponent boardGui;
 	private Game game;
 
 
@@ -24,7 +24,9 @@ public class GameGuiMain implements Observer {
 
 	}
 
-
+	public static BoardJComponent getBoardGui(){
+		return boardGui;
+	}
 
 	private void buildGui() {
 		boardGui = new BoardJComponent(game);

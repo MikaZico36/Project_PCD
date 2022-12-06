@@ -2,6 +2,7 @@ package game;
 
 import java.util.ArrayList;
 
+import static java.lang.System.exit;
 import static java.lang.Thread.sleep;
 
 public class Podio{
@@ -48,5 +49,11 @@ public class Podio{
                 }
             }
         }
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    exit(0);
     }
 }
