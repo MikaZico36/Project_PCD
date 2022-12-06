@@ -3,6 +3,7 @@ package game;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Observable;
@@ -10,12 +11,12 @@ import environment.Cell;
 import environment.Coordinate;
 
 
-public class Game extends Observable {
+public class Game extends Observable implements Serializable  {
 	public static final int SERVER_PORT = 2438;
 
 	public static final int DIMY = 30;
 	public static final int DIMX = 30;
-	public static final int NUM_PLAYERS = 90;
+	public static final int NUM_PLAYERS = 40;
 	public static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 	public static final long REFRESH_INTERVAL = 400;
 	public static final double MAX_INITIAL_STRENGTH = 3;
@@ -49,7 +50,11 @@ public class Game extends Observable {
 	 * @param player O jogador que queremos adicionar
 	 */
 	public void addPlayerToGame(Player player)  {
-		player.start();
+		if(player instanceof BotPlayer) {
+			Thread botPlayer = new Thread((BotPlayer) player);
+			botPlayer.start();
+		}
+		getRandomCell().spawnPlayer(player);
 	}
 
 	public Podio getPodio() {
@@ -77,7 +82,7 @@ public class Game extends Observable {
 		return newCell;
 	}
 
-	public class GameServer extends Thread{ //TODO Verificar se faz sentido isto ser uma Thread
+	/*public class GameServer extends Thread{ //TODO Verificar se faz sentido isto ser uma Thread
 		private final Game game = Game.getGame();
 		private final ServerSocket ss = new ServerSocket(SERVER_PORT);
 
@@ -96,5 +101,5 @@ public class Game extends Observable {
 				}
 			}
 		}
-	}
+	}*/
 }

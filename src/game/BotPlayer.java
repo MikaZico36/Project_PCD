@@ -10,7 +10,7 @@ import static java.lang.Thread.sleep;
  * @author luismota
  *
  */
-public class BotPlayer extends Player {
+public class BotPlayer extends Player implements Runnable {
 	public BotPlayer(int id, byte strength, Podio podio) {
 		super(id, strength, podio);
 	}
@@ -43,7 +43,7 @@ public class BotPlayer extends Player {
 	@Override
 	public void run() {
 
-		game.getRandomCell().spawnPlayer(this);
+		//game.getRandomCell().spawnPlayer(this);
 
 		try {
 			sleep(Game.INITIAL_WAITING_TIME);

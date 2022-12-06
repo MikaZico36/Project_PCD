@@ -6,15 +6,11 @@ import java.io.*;
 import java.net.Socket;
 
 public class HumanPlayer extends Player{
-    private ObjectInputStream in;
-    private PrintWriter out;
-    private Socket serverSocket;
+    private Socket clientSocket; // Socket do cliente ao qual este HumanPlayer esta associado
 
-    public static void main(String[] args){
-
-    }
-    public HumanPlayer(int id, byte strength, Podio podio) {
+    public HumanPlayer(int id, byte strength, Podio podio, Socket clientSocket) {
         super(id, strength, podio);
+        this.clientSocket = clientSocket;
     }
 
     @Override
@@ -28,21 +24,5 @@ public class HumanPlayer extends Player{
         return null;
     }
 
-    @Override
-    public void run() {
-        //TODO Human Player run() method
-        makeConnections();
-        while(!isDead()) {
-            // TODO O que vai o player receber? O board todo? Perguntar a prof terça
-        }
-    }
-    private void makeConnections() {
-        try {
-            serverSocket = new Socket("localhost", Game.SERVER_PORT);
-            in = new ObjectInputStream(serverSocket.getInputStream());
-            out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())), true);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

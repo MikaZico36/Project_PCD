@@ -1,10 +1,11 @@
 package game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import static java.lang.Thread.sleep;
 
-public class Podio{
+public class Podio implements Serializable {
     private int count;
 
     private ArrayList<Player> podio;

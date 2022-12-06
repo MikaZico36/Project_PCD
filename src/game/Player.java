@@ -6,14 +6,17 @@ import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 
+import java.io.Serializable;
 import java.util.concurrent.CyclicBarrier;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Represents a player.
  * @author luismota
  *
  */
-public abstract class Player extends Thread{
+public abstract class Player implements Serializable {
 
 	protected Game game = Game.getGame();
 	private int id;
@@ -50,7 +53,7 @@ public abstract class Player extends Thread{
 			if(destinationCell.getPlayer().getCurrentStrength() == 10 ||
 					destinationCell.getPlayer().getCurrentStrength() == 0){
 				try {
-					sleep(Game.MAX_WAITING_TIME_FOR_MOVE);
+					Thread.sleep(Game.MAX_WAITING_TIME_FOR_MOVE);
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);
 				}
