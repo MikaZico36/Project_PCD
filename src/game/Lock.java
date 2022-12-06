@@ -1,7 +1,4 @@
 package game;
-
-import static java.lang.Thread.currentThread;
-
 public class Lock {
     private boolean locked;
 

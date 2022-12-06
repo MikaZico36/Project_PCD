@@ -6,8 +6,6 @@ import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 
-import java.util.concurrent.CyclicBarrier;
-
 /**
  * Represents a player.
  * @author luismota
@@ -60,12 +58,10 @@ public abstract class Player extends Thread{
 			game.notifyChange();	//TODO ver se e mesmo necessario esta linha
 			return;
 		}
+
 		destinationCell.setPlayer(this);	//Digo que o "player" agora faz parte dessa célula
 		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
-
 		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
-
-
 		game.notifyChange();
 	}
 
