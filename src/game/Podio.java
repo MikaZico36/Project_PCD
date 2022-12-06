@@ -3,6 +3,7 @@ package game;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static java.lang.System.exit;
 import static java.lang.Thread.sleep;
 
 public class Podio implements Serializable {
@@ -49,5 +50,11 @@ public class Podio implements Serializable {
                 }
             }
         }
+        try {
+            sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    exit(0);
     }
 }

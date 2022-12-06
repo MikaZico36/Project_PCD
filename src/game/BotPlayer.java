@@ -36,10 +36,6 @@ public class BotPlayer extends Player implements Runnable {
 		return d;
 	}
 
-	public void setCurrentCell(Cell c) {
-		this.position = c;
-	}
-
 	@Override
 	public void run() {
 
@@ -50,17 +46,12 @@ public class BotPlayer extends Player implements Runnable {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
-
 		int counter = 0;	// Usa-se esta variavel para determinar se o ciclo atual do while é quando o bot se deve mexer, de acordo com o seu original strength
 		while (!isDead() && this.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH && !podio.isFinished()) {
 			counter++;
-			//System.out.println("Counter = " + counter + " Player ID = " + this.getIdentification());
 			if (counter == getOriginalStrength()) {
 				counter = 0;
-				//System.out.println("Counter dentro do if = " + counter);
-				synchronized (this) {
 					move();
-				}
 			}
 			try {
 				sleep(Game.REFRESH_INTERVAL);
@@ -77,9 +68,6 @@ public class BotPlayer extends Player implements Runnable {
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-		}
-		synchronized (this) {
-			notifyAll();		// TODO ESTAMOS A NOTIFICAR O QUE?
 		}
 	}
 }
