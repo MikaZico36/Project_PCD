@@ -96,9 +96,9 @@ public class BoardJComponent extends JComponent implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyCode());
+		//System.out.println(e.getKeyCode());
 		if(alternativeKeys) {
-			switch(e.getKeyCode()){	
+			switch(e.getKeyCode()){
 			case  KeyEvent.VK_A:
 				lastPressedDirection=environment.Direction.LEFT;
 				break;

@@ -29,9 +29,10 @@ public class ClientHandler extends Thread{
         while(true) { //TODO Quando player morrer fazemos como? talvez idk
             try {
                 out.reset();
-                //out.writeObject(GameGuiMain.getBoardGui());
                 out.writeObject(game);
+
                 String direction = in.readLine();
+                System.out.println(direction);
                 choosePlayerDirection(direction);
                 player.move();      // TODO ver se podemos integrar isto no choosePlayerDirection()
             } catch(SocketTimeoutException e) {

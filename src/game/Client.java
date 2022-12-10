@@ -27,15 +27,20 @@ public class Client extends Thread{
         makeConnections();
         frame.setSize(800,800);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setFocusable(true);
         while(true) { // O server trata de fechar a ligacao
 
             try {
-                //BoardJComponent boardGui = (BoardJComponent) in.readObject();
-                //updateFrame(boardGui);
-                //System.out.println(boardGui.getLastPressedDirection());
                 Game game = (Game) in.readObject();
-                BoardJComponent board = new BoardJComponent(game, true);
+                BoardJComponent board = new BoardJComponent(game, false);
                 updateFrame(board);
+
+                if(board.getLastPressedDirection() != null) {
+                    System.out.println(board.getLastPressedDirection().toString());
+                    out.println(board.getLastPressedDirection().toString());
+
+                }
+
             } catch (IOException | ClassNotFoundException e) {
                throw new RuntimeException(e);
             }
