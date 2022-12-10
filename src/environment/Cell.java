@@ -64,12 +64,12 @@ public class Cell implements Serializable {
 		lock.tryUnLock();
 		if(!isOccupied())
 			return;
-		
+
 		player = null;
 		game.notifyChange();
+		notifyAll();
 		lock.unLocked();
-		
-		
+
 	}
 
 	
