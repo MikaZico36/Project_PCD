@@ -32,6 +32,7 @@ public class Client extends Thread{
         //TODO Human Player run() method
         makeConnections();
         frame.setSize(800,800);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         while(true) { // O server trata de fechar a ligacao
 
             try {
@@ -50,8 +51,9 @@ public class Client extends Thread{
     private void makeConnections() {
         try {
             serverSocket = new Socket("localhost", Game.SERVER_PORT);
-            in = new ObjectInputStream(serverSocket.getInputStream());
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())), true);
+            in = new ObjectInputStream(serverSocket.getInputStream());
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

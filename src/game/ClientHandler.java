@@ -29,8 +29,9 @@ public class ClientHandler extends Thread{
             try {
                 out.writeObject(GameGuiMain.getBoardGui());
                 System.out.println("Esperando pela direçao");
-                String direction = in.readLine();
                 out.reset();
+                String direction = in.readLine();
+
             } catch(SocketTimeoutException e) {
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada
             }catch (IOException e) {
