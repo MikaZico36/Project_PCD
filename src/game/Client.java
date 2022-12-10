@@ -34,9 +34,13 @@ public class Client extends Thread{
         while(true) { // O server trata de fechar a ligacao
             // TODO O que vai o player receber? O board todo? Perguntar a prof terça
             try {
-                GameStatus status = (GameStatus) in.readObject();
-                BoardJComponent boardGui = status.getBoard();
-                HumanPlayer player = status.getPlayer();
+                //GameStatus status = (GameStatus) in.readObject();
+                //BoardJComponent boardGui = status.getBoard();
+                //HumanPlayer player = status.getPlayer();
+                ////frame = (JFrame) in.readObject();
+                //frame.add(boardGui);
+                //frame.setVisible(true);
+                BoardJComponent boardGui = (BoardJComponent) in.readObject();
                 frame.add(boardGui);
                 frame.setVisible(true);
 

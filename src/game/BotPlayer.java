@@ -39,7 +39,7 @@ public class BotPlayer extends Player implements Runnable {
 	@Override
 	public void run() {
 
-		//game.getRandomCell().spawnPlayer(this);
+		game.getRandomCell().spawnPlayer(this);
 
 		try {
 			sleep(Game.INITIAL_WAITING_TIME);

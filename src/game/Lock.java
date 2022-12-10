@@ -1,5 +1,8 @@
 package game;
-public class Lock {
+
+import java.io.Serializable;
+
+public class Lock implements Serializable {
     private boolean locked;
 
     public Lock(){

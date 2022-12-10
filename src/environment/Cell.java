@@ -46,7 +46,7 @@ public class Cell implements Serializable {
 	public synchronized void spawnPlayer(Player player) {
 		while(this.isOccupied()) {
 			try {
-				System.out.println("Jogador " + player.getIdentification() + " nao pode ser colocado, esperando...");
+				System.out.println("Jogador " + player.getIdentification() + " nao pode ser colocado, esperando..." + getPosition());
 				wait();
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);

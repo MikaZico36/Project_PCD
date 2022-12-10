@@ -65,7 +65,8 @@ public class GameGuiMain implements Observer, Serializable {
 				game.addPlayerToGame(bot);
 
 			}
-
+			BotPlayer newBot = new BotPlayer(6969, (byte)0, game.getPodio());
+			game.addPlayerToGame(newBot);
 	}
 
 	@Override
@@ -92,7 +93,7 @@ public class GameGuiMain implements Observer, Serializable {
 			while(true) {
 				try {
 					Socket clientSocket = ss.accept();		// Este metodo faz um wait() enquanto espera por pedidos
-					new ClientHandler(clientSocket, boardGui).start();
+					new ClientHandler(clientSocket).start();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);

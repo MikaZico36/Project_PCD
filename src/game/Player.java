@@ -68,6 +68,7 @@ public abstract class Player implements Serializable {
 		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
 		game.notifyChange();
+		notifyAll();
 	}
 
 	private void resolveConflict(Player enemy) {

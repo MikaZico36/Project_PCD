@@ -1,7 +1,9 @@
 package game;
 
 import gui.BoardJComponent;
+import gui.GameGuiMain;
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -13,9 +15,12 @@ public class ClientHandler extends Thread{
     private ObjectOutputStream out;
     private BufferedReader in;
     private BoardJComponent boardGui;
-    public ClientHandler(Socket client, BoardJComponent boardGui) {
+
+    private JFrame frame;
+    private GameGuiMain gui;
+    public ClientHandler(Socket client) {
         this.clientSocket = client;
-        this.boardGui = boardGui;
+        //this.gui = gui;
     }
 
     @Override
@@ -25,7 +30,8 @@ public class ClientHandler extends Thread{
         HumanPlayer player = new HumanPlayer(100, (byte) 3, game.getPodio(), clientSocket);
         while(true) { //TODO Quando player morrer fazemos como? talvez idk
             try {
-                out.writeObject(new GameStatus(boardGui, player));
+                //out.writeObject(new GameStatus(boardGui, player));
+                out.writeObject(GameGuiMain.getBoardGui());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -54,7 +54,9 @@ public class Game extends Observable implements Serializable  {
 			Thread botPlayer = new Thread((BotPlayer) player);
 			botPlayer.start();
 		}
-		getRandomCell().spawnPlayer(player);
+		else {
+			getRandomCell().spawnPlayer(player);
+		}
 	}
 
 	public Podio getPodio() {
