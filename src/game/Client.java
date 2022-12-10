@@ -31,22 +31,19 @@ public class Client extends Thread{
     public void run() {
         //TODO Human Player run() method
         makeConnections();
+        frame.setSize(800,800);
         while(true) { // O server trata de fechar a ligacao
-            // TODO O que vai o player receber? O board todo? Perguntar a prof terça
+
             try {
-                //GameStatus status = (GameStatus) in.readObject();
-                //BoardJComponent boardGui = status.getBoard();
-                //HumanPlayer player = status.getPlayer();
-                ////frame = (JFrame) in.readObject();
-                //frame.add(boardGui);
-                //frame.setVisible(true);
+                System.out.println("Esperando...");
                 BoardJComponent boardGui = (BoardJComponent) in.readObject();
+                frame.getContentPane().removeAll();
                 frame.add(boardGui);
                 frame.setVisible(true);
 
 
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+               throw new RuntimeException(e);
             }
         }
     }

@@ -9,18 +9,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 public class ClientHandler extends Thread{
     private final Socket clientSocket;
     private ObjectOutputStream out;
     private BufferedReader in;
-    private BoardJComponent boardGui;
 
-    private JFrame frame;
-    private GameGuiMain gui;
     public ClientHandler(Socket client) {
         this.clientSocket = client;
-        //this.gui = gui;
     }
 
     @Override
@@ -30,9 +27,13 @@ public class ClientHandler extends Thread{
         HumanPlayer player = new HumanPlayer(100, (byte) 3, game.getPodio(), clientSocket);
         while(true) { //TODO Quando player morrer fazemos como? talvez idk
             try {
-                //out.writeObject(new GameStatus(boardGui, player));
                 out.writeObject(GameGuiMain.getBoardGui());
-            } catch (IOException e) {
+                System.out.println("Esperando pela direçao");
+                String direction = in.readLine();
+                out.reset();
+            } catch(SocketTimeoutException e) {
+                //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada
+            }catch (IOException e) {
                 throw new RuntimeException(e);
             }
 
@@ -43,6 +44,7 @@ public class ClientHandler extends Thread{
         try {
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            clientSocket.setSoTimeout((int) Game.REFRESH_INTERVAL);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
