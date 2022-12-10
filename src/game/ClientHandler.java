@@ -27,9 +27,9 @@ public class ClientHandler extends Thread{
         HumanPlayer player = new HumanPlayer(100, (byte) 3, game.getPodio(), clientSocket);
         while(true) { //TODO Quando player morrer fazemos como? talvez idk
             try {
+                out.reset();
                 out.writeObject(GameGuiMain.getBoardGui());
                 System.out.println("Esperando pela direçao");
-                out.reset();
                 String direction = in.readLine();
 
             } catch(SocketTimeoutException e) {

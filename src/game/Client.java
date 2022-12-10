@@ -41,7 +41,7 @@ public class Client extends Thread{
                 frame.getContentPane().removeAll();
                 frame.add(boardGui);
                 frame.setVisible(true);
-
+                frame.repaint();
 
             } catch (IOException | ClassNotFoundException e) {
                throw new RuntimeException(e);
