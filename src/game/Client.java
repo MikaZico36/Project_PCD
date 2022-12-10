@@ -30,9 +30,12 @@ public class Client extends Thread{
         while(true) { // O server trata de fechar a ligacao
 
             try {
-                BoardJComponent boardGui = (BoardJComponent) in.readObject();
-                updateFrame(boardGui);
-
+                //BoardJComponent boardGui = (BoardJComponent) in.readObject();
+                //updateFrame(boardGui);
+                //System.out.println(boardGui.getLastPressedDirection());
+                Game game = (Game) in.readObject();
+                BoardJComponent board = new BoardJComponent(game, true);
+                updateFrame(board);
             } catch (IOException | ClassNotFoundException e) {
                throw new RuntimeException(e);
             }
@@ -52,6 +55,7 @@ public class Client extends Thread{
     private void updateFrame(BoardJComponent board) {
         frame.getContentPane().removeAll();
         frame.add(board);
+        frame.addKeyListener(board);
         frame.setVisible(true);
         frame.repaint();
     }

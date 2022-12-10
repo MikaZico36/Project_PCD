@@ -16,7 +16,7 @@ public class Game extends Observable implements Serializable  {
 
 	public static final int DIMY = 30;
 	public static final int DIMX = 30;
-	public static final int NUM_PLAYERS = 90;
+	public static final int NUM_PLAYERS = 2;
 	public static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 	public static final long REFRESH_INTERVAL = 400;
 	public static final double MAX_INITIAL_STRENGTH = 3;
@@ -84,24 +84,4 @@ public class Game extends Observable implements Serializable  {
 		return newCell;
 	}
 
-	/*public class GameServer extends Thread{ //TODO Verificar se faz sentido isto ser uma Thread
-		private final Game game = Game.getGame();
-		private final ServerSocket ss = new ServerSocket(SERVER_PORT);
-
-		public GameServer() throws IOException {
-		}
-
-		@Override
-		public void run() {
-			while(true) {
-				try {
-					Socket clientSocket = ss.accept();		// Este metodo faz um wait() enquanto espera por pedidos
-					new ClientHandler(clientSocket).start();
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-	}*/
 }

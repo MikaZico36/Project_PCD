@@ -30,7 +30,7 @@ import javax.swing.JComponent;
 public class BoardJComponent extends JComponent implements KeyListener {
 	private Game game;
 
-	private transient Image obstacleImage = new ImageIcon("obstacle.png").getImage();
+	private transient Image obstacleImage = new ImageIcon("obstacle.png").getImage();	//TODO passar so a guardar string do nome do ficheiro e depois converter para Image quando for preciso
 	private transient Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
 	private Direction lastPressedDirection=null;
 	private final boolean alternativeKeys;
