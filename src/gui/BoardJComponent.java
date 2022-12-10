@@ -4,6 +4,8 @@ import environment.Coordinate;
 import environment.Direction;
 import game.Game;
 import game.Player;
+import sun.awt.ExtendedKeyCodes;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +14,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.Serializable;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
@@ -26,14 +27,16 @@ import javax.swing.JComponent;
  * @author luismota
  *
  */
-public class BoardJComponent extends JComponent implements KeyListener, Serializable {
+public class BoardJComponent extends JComponent implements KeyListener {
 	private Game game;
 
 	private Image obstacleImage = new ImageIcon("obstacle.png").getImage();
 	private Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
 	private Direction lastPressedDirection=null;
-	
-	public BoardJComponent(Game game) {
+	private final boolean alternativeKeys;
+
+	public BoardJComponent(Game game,boolean alternativeKeys) {
+		this.alternativeKeys=alternativeKeys;
 		this.game = game;
 		setFocusable(true);
 		addKeyListener(this);
@@ -82,7 +85,7 @@ public class BoardJComponent extends JComponent implements KeyListener, Serializ
 					((Graphics2D) g).setStroke(new BasicStroke(5));
 					Font font = g.getFont().deriveFont( (float)cellHeight);
 					g.setFont( font );
-					String strengthMarking=(player.getCurrentStrength()==10?"X":""+player.getCurrentStrength());
+					String strengthMarking=(player.getCurrentStrength()>=10?"X":""+player.getCurrentStrength());
 					g.drawString(strengthMarking,
 							(int) ((p.x + .2) * cellWidth),
 							(int) ((p.y + .9) * cellHeight));
@@ -93,20 +96,36 @@ public class BoardJComponent extends JComponent implements KeyListener, Serializ
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch(e.getKeyCode()){
-		case KeyEvent.VK_LEFT :
-			lastPressedDirection=environment.Direction.LEFT;
-			System.out.println(e.getKeyCode());
-			break;
-		case KeyEvent.VK_RIGHT:
-			lastPressedDirection=environment.Direction.RIGHT;
-			break;
-		case KeyEvent.VK_UP:
-			lastPressedDirection=environment.Direction.UP;
-			break;
-		case KeyEvent.VK_DOWN:
-			lastPressedDirection=environment.Direction.DOWN;
-			break;
+		if(alternativeKeys) {
+			switch(e.getKeyCode()){	
+			case  KeyEvent.VK_A:
+				lastPressedDirection=environment.Direction.LEFT;
+				break;
+			case  KeyEvent.VK_D:
+				lastPressedDirection=environment.Direction.RIGHT;
+				break;
+			case KeyEvent.VK_W:
+				lastPressedDirection=environment.Direction.UP;
+				break;
+			case KeyEvent.VK_S:
+				lastPressedDirection=environment.Direction.DOWN;
+				break;
+			}
+		}else {
+			switch(e.getKeyCode()){	
+			case  KeyEvent.VK_LEFT:
+				lastPressedDirection=environment.Direction.LEFT;
+				break;
+			case  KeyEvent.VK_RIGHT:
+				lastPressedDirection=environment.Direction.RIGHT;
+				break;
+			case KeyEvent.VK_UP:
+				lastPressedDirection=environment.Direction.UP;
+				break;
+			case KeyEvent.VK_DOWN:
+				lastPressedDirection=environment.Direction.DOWN;
+				break;
+			}
 		}
 	}
 
@@ -127,5 +146,9 @@ public class BoardJComponent extends JComponent implements KeyListener, Serializ
 
 	public void clearLastPressedDirection() {
 		lastPressedDirection=null;
+	}
+
+	public Game getGame() {
+		return game;
 	}
 }

@@ -35,7 +35,7 @@ public class GameGuiMain implements Observer, Serializable {
 	}
 
 	private void buildGui() {
-		boardGui = new BoardJComponent(game);
+		boardGui = new BoardJComponent(game, true);
 		frame.add(boardGui);
 
 

@@ -16,7 +16,7 @@ public class Game extends Observable implements Serializable  {
 
 	public static final int DIMY = 30;
 	public static final int DIMX = 30;
-	public static final int NUM_PLAYERS = 40;
+	public static final int NUM_PLAYERS = 90;
 	public static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 	public static final long REFRESH_INTERVAL = 400;
 	public static final double MAX_INITIAL_STRENGTH = 3;
