@@ -1,5 +1,6 @@
 package game;
 
+import environment.Direction;
 import gui.BoardJComponent;
 
 import javax.swing.*;
@@ -10,7 +11,7 @@ import java.util.function.Predicate;
 public class Client extends Thread{
     // TODO CRIAR CONSTRUTOR COMO TA NO ENUNCIADO
 
-    private JFrame frame = new JFrame("client");
+
     public static void main(String[] args) {
         Client client = new Client();
         client.start();
@@ -18,14 +19,7 @@ public class Client extends Thread{
     private ObjectInputStream in;
     private PrintWriter out;
     private Socket serverSocket;
-    /*private HumanPlayer player;
-
-    /*public void associatePlayer(HumanPlayer player) {
-        this.player = player;
-    }
-    public HumanPlayer getPlayer() { // TODO Ver se e preciso isto
-        return player;
-    }*/
+    private JFrame frame = new JFrame("client");
 
     @Override
     public void run() {
@@ -36,12 +30,8 @@ public class Client extends Thread{
         while(true) { // O server trata de fechar a ligacao
 
             try {
-                System.out.println("Esperando...");
                 BoardJComponent boardGui = (BoardJComponent) in.readObject();
-                frame.getContentPane().removeAll();
-                frame.add(boardGui);
-                frame.setVisible(true);
-                frame.repaint();
+                updateFrame(boardGui);
 
             } catch (IOException | ClassNotFoundException e) {
                throw new RuntimeException(e);
@@ -57,5 +47,12 @@ public class Client extends Thread{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void updateFrame(BoardJComponent board) {
+        frame.getContentPane().removeAll();
+        frame.add(board);
+        frame.setVisible(true);
+        frame.repaint();
     }
 }

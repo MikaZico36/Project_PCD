@@ -1,16 +1,15 @@
 package game;
 
 import environment.Direction;
-import gui.BoardJComponent;
 import gui.GameGuiMain;
 
-import java.io.*;
 import java.net.Socket;
 
 public class HumanPlayer extends Player{
     private Socket clientSocket; // Socket do cliente ao qual este HumanPlayer esta associado
+    private Direction chosenDirection;
 
-    public HumanPlayer(int id, byte strength, Podio podio, Socket clientSocket) {
+    public HumanPlayer(int id, byte strength, Podio podio) {
         super(id, strength, podio);
         this.clientSocket = clientSocket;
     }
@@ -22,10 +21,10 @@ public class HumanPlayer extends Player{
 
     @Override
     public Direction chosenDirection() {
-        //TODO Human Player chosenDirection() method
-        Direction d = GameGuiMain.getBoardGui().getLastPressedDirection();
-        return d;
+        return chosenDirection;
     }
 
-
+    public void setChosenDirection(Direction direction) {
+        this.chosenDirection = direction;
+    }
 }

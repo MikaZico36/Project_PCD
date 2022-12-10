@@ -7,10 +7,10 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.Observer;
 
-import environment.Direction;
 import game.ClientHandler;
 import game.Game;
 import game.BotPlayer;
+import game.HumanPlayer;
 
 import javax.swing.JFrame;
 
@@ -81,7 +81,7 @@ public class GameGuiMain implements Observer, Serializable {
 
 	}
 
-	public class GameServer extends Thread{ //TODO Verificar se faz sentido isto ser uma Thread
+	public class GameServer extends Thread{ //TODO Verificar se faz sentido isto ser uma Thread [UPDATE: FAZ SENTIDO SENAO GAME FICA EM ESPERA]
 		private final Game game = Game.getGame();
 		private final ServerSocket ss = new ServerSocket(Game.SERVER_PORT);
 
@@ -90,10 +90,20 @@ public class GameGuiMain implements Observer, Serializable {
 
 		@Override
 		public void run() {
+			int humanPlayer_id = 1000;
 			while(true) {
 				try {
+
 					Socket clientSocket = ss.accept();		// Este metodo faz um wait() enquanto espera por pedidos
-					new ClientHandler(clientSocket).start();
+
+					byte power = (byte) Math.round(Math.random() * Game.MAX_INITIAL_STRENGTH);
+					// Criação do HumanPlayer
+					if (power == 0) power = 1;
+					HumanPlayer player = new HumanPlayer(humanPlayer_id, power, game.getPodio());
+					game.addPlayerToGame(player);
+					humanPlayer_id++;
+
+					new ClientHandler(clientSocket, player).start();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
