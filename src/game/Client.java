@@ -58,16 +58,11 @@ public class Client extends Thread {
                 }
 
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                closeSocket();
+                System.exit(0);
             }
         }
-        try {
-            in.close();
-            out.close();
-            serverSocket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        closeSocket();
     }
 
     private void makeConnections() {
@@ -110,4 +105,16 @@ public class Client extends Thread {
         frameJ.add(button);
         frameJ.setVisible(true);
     }
+
+    private void closeSocket(){
+        try {
+            in.close();
+            out.close();
+            serverSocket.close();
+            System.out.println("JOGO FINALIZADO");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
