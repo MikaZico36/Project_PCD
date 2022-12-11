@@ -16,21 +16,24 @@ import java.util.function.Predicate;
 public class Client {
 
     public static void main(String[] args) throws IOException {
-        Client client = new Client("localhost", Game.SERVER_PORT, true);
+        boolean a = Client.setKeys();
+        Client client = new Client("localhost", Game.SERVER_PORT, a, setName(a));
         client.runClient();
     }
 
     private ObjectInputStream in;
     private PrintWriter out;
     private Socket serverSocket;
-    private JFrame frame = new JFrame("client");
+    private JFrame frame ;//= new JFrame("client");
     private BoardJComponent board;
+
     private boolean controller = true;
     private boolean hasPrintedStatus = false;
 
-    public Client(String address, int port, boolean alternativeKeys) throws IOException {
+    public Client(String address, int port, boolean alternativeKeys,String nome) throws IOException {
         serverSocket = new Socket(InetAddress.getByName(address) , port);
         this.board = new BoardJComponent(null, alternativeKeys);
+        frame = new JFrame(nome);
     }
 
 
@@ -120,5 +123,17 @@ public class Client {
             throw new RuntimeException(e);
         }
     }
+
+//Seleciona, de forma aleatória, as teclas que o Cliente irá usar
+    public static boolean setKeys(){
+        double e = Math.random()*100;
+        return e > 50;
+    }
+//Muda o nome da JFrame de acordo com as teclas que usará
+    public static String setName(boolean b){
+        if(b)return "Client ->WASD";
+        return "Client -> Arrow";
+    }
+
 
 }
