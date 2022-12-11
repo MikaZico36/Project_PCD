@@ -32,7 +32,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 
 	private transient Image obstacleImage = new ImageIcon("obstacle.png").getImage();
 	private transient Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
-	private Direction lastPressedDirection=environment.Direction.RIGHT;
+	private Direction lastPressedDirection=null;
 	private final boolean alternativeKeys;
 
 	public BoardJComponent(Game game,boolean alternativeKeys) {

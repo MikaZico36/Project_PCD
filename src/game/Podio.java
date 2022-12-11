@@ -26,6 +26,7 @@ public class Podio implements Serializable {
         count--;
         if(isFinished())
             notifyAll();
+        System.out.println("Entrei no podio");
     }
 
     public boolean isFinished() {
