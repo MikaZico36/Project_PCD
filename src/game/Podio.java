@@ -62,4 +62,7 @@ public class Podio implements Serializable {
         }
         exit(0);
     }
+    public int getPlayerPosition(Player player) {
+        return podio.indexOf(player)+1;
+    }
 }

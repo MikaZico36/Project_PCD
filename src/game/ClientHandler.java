@@ -27,16 +27,17 @@ public class ClientHandler extends Thread{
     public void run() {
         makeConnections();      //Estabelece a ligacao com o cliente, assim como inicializar out e in
         Game game = Game.getGame();
-        BoardJComponent board = GameGuiMain.getBoardGui();
-        while(clientSocket != null && !player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
+        while(clientSocket != null) {
 
             try {
                 out.reset();
-                out.writeObject(game.getBoard());
+                out.writeObject(new GameStatus(game.getBoard(), generatePlayerStatusMessage()));
 
-                String direction = in.readLine();
-                choosePlayerDirection(direction);
-                player.move();
+                if(!player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
+                    String direction = in.readLine();
+                    choosePlayerDirection(direction);
+                    player.move();
+                }
             } catch(SocketTimeoutException e) {
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada, mesmo quando o player nao envia direcoes
             }catch (IOException e) {
@@ -49,6 +50,7 @@ public class ClientHandler extends Thread{
 
         }
         try {
+
             in.close();
             out.close();
             clientSocket.close();
@@ -100,6 +102,12 @@ public class ClientHandler extends Thread{
         }
     }
 
-
+    private String generatePlayerStatusMessage() {
+        if(player.isDead())
+            return "O Player morreu";
+        if(player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)
+            return "Ficaste em " + player.getPodio().getPlayerPosition(player) + " lugar";
+        return "";
+    }
 
 }

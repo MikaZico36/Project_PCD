@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 
 public class Client extends Thread {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Client client = new Client("localhost", Game.SERVER_PORT, true);
         client.start();
     }
@@ -25,16 +25,10 @@ public class Client extends Thread {
     private JFrame frame = new JFrame("client");
     private BoardJComponent board;
     private boolean controller = true;
+    private boolean hasPrintedStatus = false;
 
-    //Connection Variables
-    private final String address;
-    private final int port;
-    private final boolean alternativeKeys;
-
-    public Client(String address, int port, boolean alternativeKeys) {
-        this.address = address;
-        this.port = port;
-        this.alternativeKeys = alternativeKeys;
+    public Client(String address, int port, boolean alternativeKeys) throws IOException {
+        serverSocket = new Socket(address, port);
         this.board = new BoardJComponent(null, alternativeKeys);
     }
 
@@ -45,7 +39,9 @@ public class Client extends Thread {
 
         while (controller) { // O server trata de fechar a ligacao
             try {
-                Cell[][] cellBoard = (Cell[][]) in.readObject();
+                GameStatus status = (GameStatus) in.readObject();
+                printStatusMessage(status);
+                Cell[][] cellBoard = status.getBoard();
                 Game game = new Game(cellBoard);
                 board.updateGame(game);         // Ao receber um novo game, temos que atualizar o nosso BoardJComponent board
                 updateFrame(board);
@@ -63,9 +59,15 @@ public class Client extends Thread {
         closeSocket();
     }
 
+    private void printStatusMessage(GameStatus status) {
+        if(status.getPlayerStatusMessage().isBlank())   return;
+        if(!hasPrintedStatus) {
+            System.out.println(status.getPlayerStatusMessage());
+            hasPrintedStatus = true;
+        }
+    }
     private void makeConnections() {
         try {
-            serverSocket = new Socket(address, port);
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())), true);
             in = new ObjectInputStream(serverSocket.getInputStream());
 

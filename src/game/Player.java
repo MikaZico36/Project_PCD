@@ -65,8 +65,10 @@ public abstract class Player implements Serializable {
 		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 		game.notifyChange();
 
-		System.out.println("Sou o move e a tua strength é " + this.getCurrentStrength());
+	}
 
+	public Podio getPodio() {
+		return podio;
 	}
 
 	private void resolveConflict(Player enemy) {
@@ -84,7 +86,7 @@ public abstract class Player implements Serializable {
 
 			podio.countDown(this);
 			try {
-				podio.await();
+				if(!isHumanPlayer())	podio.await();
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
