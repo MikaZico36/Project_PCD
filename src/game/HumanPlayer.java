@@ -30,10 +30,9 @@ public class HumanPlayer extends Player{
 
     public void setOnPodio(){
         System.out.println("Entrei no setOnPodio " + this.getCurrentStrength());
-        if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH) {
             System.out.println("Vou entrar no countdown" + this.getIdentification());
             podio.countDown(this);
-        }
+
     }
 
 

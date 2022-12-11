@@ -24,8 +24,11 @@ public class Podio implements Serializable {
     public synchronized void countDown(Player player){
         podio.add(player);
         count--;
-        if(isFinished())
+        if(isFinished()) {
             notifyAll();
+            lugaresPodio();
+        System.out.println("..............O JOGO TERMINOU............");
+        }
         System.out.println("Entrei no podio");
     }
 
@@ -36,7 +39,6 @@ public class Podio implements Serializable {
     public synchronized void await() throws InterruptedException{
         while(!isFinished())
             wait();
-        lugaresPodio();
     }
 
     private void lugaresPodio() {

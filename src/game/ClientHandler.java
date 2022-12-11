@@ -28,11 +28,17 @@ public class ClientHandler extends Thread{
     public void run() {
         makeConnections();      //Estabelece a ligacao com o cliente, assim como inicializar out e in
         Game game = Game.getGame();
+        boolean verify = false;
         while(clientSocket != null) {
 
             try {
                 out.reset();
                 out.writeObject(new GameStatus(game.getBoard(), generatePlayerStatusMessage()));
+                if(player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH && verify == false){
+                    player.setOnPodio();
+                    verify = true;
+                }
+
 
                 if(!player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
                     String direction = in.readLine();
@@ -44,7 +50,6 @@ public class ClientHandler extends Thread{
             }catch (IOException e) {
                 //Quando o jogador se desconecta, se este venceu ou morreu, ele permance no jogo como obstaculo. Senao, se saiu a meio sem morrer nem ganhar, ele simplesmente desaparece
                 if(!(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)) {
-                    player.setOnPodio();
                     player.getCurrentCell().unsetPlayer();
                     player.unSetCell();
                 }
