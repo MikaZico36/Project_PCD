@@ -8,6 +8,7 @@ public class GameStatus implements Serializable {
     private final Cell[][] board;
     private final String playerStatusMessage;
 
+
     public GameStatus(Cell[][] board, String playerStatusMessage) {
         this.board = board;
         this.playerStatusMessage = playerStatusMessage;

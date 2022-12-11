@@ -18,6 +18,7 @@ public class ClientHandler extends Thread{
     private BufferedReader in;
     private HumanPlayer player;
 
+
     public ClientHandler(Socket client, HumanPlayer player) {
         this.clientSocket = client;
         this.player = player;
@@ -43,12 +44,14 @@ public class ClientHandler extends Thread{
             }catch (IOException e) {
                 //Quando o jogador se desconecta, se este venceu ou morreu, ele permance no jogo como obstaculo. Senao, se saiu a meio sem morrer nem ganhar, ele simplesmente desaparece
                 if(!(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)) {
+                    player.setOnPodio();
                     player.getCurrentCell().unsetPlayer();
                     player.unSetCell();
                 }
             }
 
         }
+
         try {
 
             in.close();

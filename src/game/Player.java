@@ -38,7 +38,7 @@ public abstract class Player implements Serializable {
 
 	public synchronized void move() {
 		// Verificar se o player esta atualmente associado a uma Cell
-		Cell currentCell = getCurrentCell();
+		Cell currentCell = this.getCurrentCell();
 		if(currentCell == null)			return;
 
 		Coordinate destinationCoordinate = chosenDirection().getVector();
@@ -55,7 +55,7 @@ public abstract class Player implements Serializable {
 				return;
 			}
 			// Caso a Cell esteja ocupada por um jogador vivo, resolve-se o conflito
-			resolveConflict(destinationCell.getPlayer());
+				this.resolveConflict(destinationCell.getPlayer());
 			game.notifyChange();
 			return;
 		}
@@ -64,7 +64,6 @@ public abstract class Player implements Serializable {
 		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
 		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 		game.notifyChange();
-
 	}
 
 	public Podio getPodio() {
@@ -73,32 +72,29 @@ public abstract class Player implements Serializable {
 
 	private void resolveConflict(Player enemy) {
 		byte enemyPower = enemy.getCurrentStrength();
-		if(enemyPower > getCurrentStrength())
+		if(enemyPower > this.getCurrentStrength())
 			enemy.kill(this);
-		else if(enemyPower < getCurrentStrength())
+		else if(enemyPower < this.getCurrentStrength())
 			this.kill(enemy);
 		else {
 			int random = (int) Math.round(Math.random());
 			if(random == 0)		this.kill(enemy);
 			else 				enemy.kill(this);
 		}
-		if (this.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH) {
 
-			podio.countDown(this);
-			try {
-				if(!isHumanPlayer())	podio.await();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		}
+		System.out.println("IF De força " + this.getIdentification() + " " + this.getCurrentStrength());
+
 	}
 
 	private void kill(Player deadPlayer) {
 		byte deadPlayerPoints = deadPlayer.getCurrentStrength();
 
 		this.setCurrentStrength((byte) (getCurrentStrength() + deadPlayerPoints));
-		if(this.getCurrentStrength() >Game.MAX_PLAYER_STRENGTH )
+		System.err.println(this.getIdentification() + " Força " + this.getCurrentStrength());
+		if(this.getCurrentStrength() >=Game.MAX_PLAYER_STRENGTH ){
+			System.out.println("Entrei no if do kill " + this.getIdentification());
 			this.setCurrentStrength(Game.MAX_PLAYER_STRENGTH);
+		}
 		deadPlayer.setCurrentStrength((byte) 0);
 	}
 	public void setCell(Cell c) {
