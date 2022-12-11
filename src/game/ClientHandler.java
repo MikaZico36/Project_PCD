@@ -33,7 +33,7 @@ public class ClientHandler extends Thread{
         while (clientSocket != null) {
 
             try {
-                if (player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH && verify == false) {
+                if (player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH && !verify) {
                     player.setOnPodio();
                     verify = true;
                 }
@@ -43,12 +43,12 @@ public class ClientHandler extends Thread{
                     String direction = in.readLine();
                     choosePlayerDirection(direction);
                     player.move();
-                    System.out.println(player.getCurrentCell().getPosition());
                 }
             } catch (SocketTimeoutException e) {
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada, mesmo quando o player nao envia direcoes
             } catch (IOException e) {
-                //Quando o jogador se desconecta, se este venceu ou morreu, ele permance no jogo como obstaculo. Senao, se saiu a meio sem morrer nem ganhar, ele simplesmente desaparece
+                /*Quando o jogador se desconecta, se este venceu ou morreu, ele permance no jogo como obstaculo.
+                Se não, se saiu a meio sem morrer nem ganhar, ele simplesmente desaparece*/
                 if (!(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)) {
                     Cell playerCell = player.getCurrentCell();
                     if (playerCell != null) player.getCurrentCell().unsetPlayer();
@@ -91,7 +91,7 @@ public class ClientHandler extends Thread{
         try {
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            //Este Timeout
+            //Este método verifica se num período de tempo é recebida alguma informação
             clientSocket.setSoTimeout((int) Game.REFRESH_INTERVAL);
         } catch (IOException e) {
             throw new RuntimeException(e);

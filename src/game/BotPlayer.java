@@ -16,7 +16,6 @@ public class BotPlayer extends Player implements Runnable {
 	}
 
 	//Função que calcula de forma random para onde o playerBot se vai mover
-
 	@Override
 	public Direction chosenDirection() {
 		Direction d = null;
@@ -41,7 +40,8 @@ public class BotPlayer extends Player implements Runnable {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
-		int counter = 0;	// Usa-se esta variavel para determinar se o ciclo atual do while é quando o bot se deve mexer, de acordo com o seu original strength
+		// Usa-se esta variavel para determinar se o ciclo atual do while é quando o bot se deve mexer, de acordo com o seu original strength
+		int counter = 0;
 		while (!isDead() && this.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH && !podio.isFinished()) {
 			counter++;
 			if (counter == getOriginalStrength()) {
@@ -60,7 +60,8 @@ public class BotPlayer extends Player implements Runnable {
 		}
 	}
 
-	//Fazemos Override deste método pois no HumanPlayer tem um funcionamento diferente. Aqui precisamos que o botPlayer seja colocado em espera assim que ganha o jogo
+	/*Fazemos Override deste método pois no HumanPlayer tem um funcionamento diferente.
+	 Aqui precisamos que o botPlayer seja colocado em espera assim que ganha o jogo*/
 	@Override
 	public void setOnPodio(){
 		super.setOnPodio();

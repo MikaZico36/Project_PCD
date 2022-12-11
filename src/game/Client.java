@@ -38,7 +38,7 @@ public class Client {
         makeConnections();
         createMainFrame();
 
-        while (controller) { // O server trata de fechar a ligacao
+        while (controller) { // O server trata de fechar a ligação
             try {
                 GameStatus status = (GameStatus) in.readObject();
                 printStatusMessage(status);
@@ -46,11 +46,12 @@ public class Client {
                 Game game = new Game(cellBoard);
                 board.updateGame(game);         // Ao receber um novo game, temos que atualizar o nosso BoardJComponent board
                 updateFrame(board);
-//quando premimos uma tecla do lado do cliente, a Thread envia para o Servidor a direção escolhida na forma de String através de um canal de texto
+/*quando premimos uma tecla do lado do cliente, a Thread envia para o Servidor
+ a direção escolhida na forma de String através de um canal de texto*/
                 if (board.getLastPressedDirection() != null) {
                     out.println(board.getLastPressedDirection().toString());
-                    board.clearLastPressedDirection();/*Por fim voltamos a colocar a direção selecionada de novo a null para evitar um
-                                                        movimento contínuo*/
+                    board.clearLastPressedDirection();/*Por fim voltamos a colocar a direção selecionada de novo
+                                                         a null para evitar um movimento contínuo*/
                 }
 //Quando o Server termina antes do cliente, o cliente fecha os seus canais e termina o seu processo
             } catch (IOException | ClassNotFoundException e) {

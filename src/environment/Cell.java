@@ -48,7 +48,8 @@ public class Cell implements Serializable {
 	//É usado do Player estar no jogo e permite dar Spawn aos Players do jogo
 	public void spawnPlayer(Player player) {
 			while(this.isOccupied()) {
-				if (this.getPlayer().isDead()) {//Caso o player selecione uma Cell onde está um player morto, então escolhe outra Cell
+				//Caso o player selecione uma Cell onde está um player morto, então escolhe outra Cell
+				if (this.getPlayer().isDead()) {
 					game.addPlayerToGame(player);
 
 					return;
