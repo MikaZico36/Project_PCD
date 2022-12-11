@@ -2,6 +2,7 @@ package game;
 
 import environment.Direction;
 import gui.BoardJComponent;
+import gui.GameGuiMain;
 
 import javax.swing.*;
 import java.io.*;
@@ -33,13 +34,19 @@ public class Client extends Thread{
             try {
                 Game game = (Game) in.readObject();
                 BoardJComponent board = new BoardJComponent(game, false);
+                //BoardJComponent board = (BoardJComponent) in.readObject();
                 updateFrame(board);
 
-                if(board.getLastPressedDirection() != null) {
-                    System.out.println(board.getLastPressedDirection().toString());
-                    out.println(board.getLastPressedDirection().toString());
+                //TODO PROBLEMA ESTÁ  NA DETEÇÃO DAS TECLAS
 
-                }
+                    if (board.getLastPressedDirection() != null) {
+                        System.out.println( " TECLA CLICADA" + board.getLastPressedDirection());
+                        out.println(board.getLastPressedDirection().toString());
+                        //out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())),true);
+
+
+                        board.clearLastPressedDirection();
+                    }
 
             } catch (IOException | ClassNotFoundException e) {
                throw new RuntimeException(e);

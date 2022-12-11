@@ -7,7 +7,7 @@ import java.net.Socket;
 
 public class HumanPlayer extends Player{
     private Socket clientSocket; // Socket do cliente ao qual este HumanPlayer esta associado
-    private Direction chosenDirection;
+    private Direction chosenDirection = null;
 
     public HumanPlayer(int id, byte strength, Podio podio) {
         super(id, strength, podio);

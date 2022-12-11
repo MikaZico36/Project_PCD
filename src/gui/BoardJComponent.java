@@ -32,7 +32,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 
 	private transient Image obstacleImage = new ImageIcon("obstacle.png").getImage();	//TODO passar so a guardar string do nome do ficheiro e depois converter para Image quando for preciso
 	private transient Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
-	private Direction lastPressedDirection=null;
+	private Direction lastPressedDirection=environment.Direction.RIGHT;
 	private final boolean alternativeKeys;
 
 	public BoardJComponent(Game game,boolean alternativeKeys) {
@@ -96,7 +96,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		//System.out.println(e.getKeyCode());
+		System.out.println(e.getKeyCode());
 		if(alternativeKeys) {
 			switch(e.getKeyCode()){
 			case  KeyEvent.VK_A:
@@ -121,6 +121,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 				lastPressedDirection=environment.Direction.RIGHT;
 				break;
 			case KeyEvent.VK_UP:
+				System.out.println("Entrei no UP");
 				lastPressedDirection=environment.Direction.UP;
 				break;
 			case KeyEvent.VK_DOWN:
@@ -152,4 +153,5 @@ public class BoardJComponent extends JComponent implements KeyListener {
 	public Game getGame() {
 		return game;
 	}
+
 }

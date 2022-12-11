@@ -1,6 +1,7 @@
 package game;
 
 import environment.Direction;
+import gui.BoardJComponent;
 import gui.GameGuiMain;
 
 import java.io.BufferedReader;
@@ -25,15 +26,25 @@ public class ClientHandler extends Thread{
     public void run() {
         makeConnections();      //Estabelece a ligacao com o cliente, assim como inicializar out e in
         Game game = Game.getGame();
-        HumanPlayer player = new HumanPlayer(100, (byte) 3, game.getPodio());
+        BoardJComponent board = GameGuiMain.getBoardGui();
+        //HumanPlayer player = new HumanPlayer(100, (byte) 3, game.getPodio());
+        //game.addPlayerToGame(player);
         while(true) { //TODO Quando player morrer fazemos como? talvez idk
             try {
                 out.reset();
                 out.writeObject(game);
+                //out.writeObject(board);
+                in= new BufferedReader(
+                        new InputStreamReader(
+                                clientSocket.getInputStream()));
+
 
                 String direction = in.readLine();
                 System.out.println(direction);
                 choosePlayerDirection(direction);
+                System.out.println("player Direção " + player.chosenDirection());
+
+
                 player.move();      // TODO ver se podemos integrar isto no choosePlayerDirection()
             } catch(SocketTimeoutException e) {
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada
@@ -46,11 +57,15 @@ public class ClientHandler extends Thread{
 
     private void choosePlayerDirection(String direction) {
         switch(direction) { //TODO Ver se podemos usar : em vez de ->
-            case "UP"->      player.setChosenDirection(Direction.UP);
+            case "UP" -> {
+                System.out.println("Entrei no UP no Handler");
+                player.setChosenDirection(Direction.UP);
+            }
             case "DOWN"->    player.setChosenDirection(Direction.DOWN);
             case "LEFT"->    player.setChosenDirection(Direction.LEFT);
             case "RIGHT"->   player.setChosenDirection(Direction.RIGHT);
         }
+
     }
     private void makeConnections() {
         try {
