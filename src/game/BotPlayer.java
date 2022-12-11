@@ -61,7 +61,6 @@ public class BotPlayer extends Player implements Runnable {
 
 		}
 		if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH) {
-			System.out.println("Vou entrar no countdown" + this .getIdentification());
 			podio.countDown(this);
 			try {
 				if(!isHumanPlayer())	podio.await();

@@ -1,5 +1,6 @@
 package game;
 
+import environment.Cell;
 import environment.Direction;
 import gui.BoardJComponent;
 import gui.GameGuiMain;
@@ -38,27 +39,27 @@ public class ClientHandler extends Thread{
                     player.setOnPodio();
                     verify = true;
                 }
-
-
                 if(!player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
                     String direction = in.readLine();
                     choosePlayerDirection(direction);
                     player.move();
+                    System.out.println(player.getCurrentCell().getPosition());
                 }
             } catch(SocketTimeoutException e) {
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada, mesmo quando o player nao envia direcoes
             }catch (IOException e) {
                 //Quando o jogador se desconecta, se este venceu ou morreu, ele permance no jogo como obstaculo. Senao, se saiu a meio sem morrer nem ganhar, ele simplesmente desaparece
                 if(!(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)) {
-                    player.getCurrentCell().unsetPlayer();
+                    Cell playerCell = player.getCurrentCell();
+                    if(playerCell != null) player.getCurrentCell().unsetPlayer();
                     player.unSetCell();
+
                 }
             }
 
         }
 
         try {
-
             in.close();
             out.close();
             clientSocket.close();

@@ -29,8 +29,6 @@ public class HumanPlayer extends Player{
     }
 
     public void setOnPodio(){
-        System.out.println("Entrei no setOnPodio " + this.getCurrentStrength());
-            System.out.println("Vou entrar no countdown" + this.getIdentification());
             podio.countDown(this);
 
     }

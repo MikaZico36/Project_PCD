@@ -1,6 +1,7 @@
 package environment;
 
 import game.Game;
+import game.HumanPlayer;
 import game.Lock;
 import game.Player;
 
@@ -34,7 +35,7 @@ public class Cell implements Serializable {
 	}
 
 
-	public synchronized void setPlayer(Player player) {
+	public void setPlayer(Player player) {
 		lock.tryUnLock();
 		lock.setLocked();
 		this.player = player;
@@ -43,11 +44,18 @@ public class Cell implements Serializable {
 		lock.unLocked();
 	}
 
-	public synchronized void spawnPlayer(Player player) {
-		while(this.isOccupied()) {
+	public void spawnPlayer(Player player) {
+			while(this.isOccupied()) {
+				if (this.getPlayer().isDead()) {
+					System.out.println("Entrei aqui");
+					game.addPlayerToGame(player);
+
+					return;
+				}
 			try {
-				System.out.println("Jogador " + player.getIdentification() + " nao pode ser colocado, esperando..." + getPosition());
-				wait();
+				synchronized (this) {
+					wait();
+				}
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
@@ -60,14 +68,13 @@ public class Cell implements Serializable {
 		return position;
 	}
 	
-	public synchronized void unsetPlayer() {
+	public void unsetPlayer() {
 		lock.tryUnLock();
+		lock.setLocked();
 		if(!isOccupied())
 			return;
-
 		player = null;
 		game.notifyChange();
-		notifyAll();
 		lock.unLocked();
 
 	}

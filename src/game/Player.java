@@ -59,7 +59,6 @@ public abstract class Player implements Serializable {
 			game.notifyChange();
 			return;
 		}
-
 		destinationCell.setPlayer(this);	//Digo que o "player" agora faz parte dessa célula
 		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
 		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
@@ -81,18 +80,12 @@ public abstract class Player implements Serializable {
 			if(random == 0)		this.kill(enemy);
 			else 				enemy.kill(this);
 		}
-
-		System.out.println("IF De força " + this.getIdentification() + " " + this.getCurrentStrength());
-
 	}
 
 	private void kill(Player deadPlayer) {
 		byte deadPlayerPoints = deadPlayer.getCurrentStrength();
-
 		this.setCurrentStrength((byte) (getCurrentStrength() + deadPlayerPoints));
-		System.err.println(this.getIdentification() + " Força " + this.getCurrentStrength());
 		if(this.getCurrentStrength() >=Game.MAX_PLAYER_STRENGTH ){
-			System.out.println("Entrei no if do kill " + this.getIdentification());
 			this.setCurrentStrength(Game.MAX_PLAYER_STRENGTH);
 		}
 		deadPlayer.setCurrentStrength((byte) 0);

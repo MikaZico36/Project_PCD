@@ -27,9 +27,7 @@ public class Podio implements Serializable {
         if(isFinished()) {
             notifyAll();
             lugaresPodio();
-        System.out.println("..............O JOGO TERMINOU............");
         }
-        System.out.println("Entrei no podio");
     }
 
     public boolean isFinished() {
@@ -65,6 +63,7 @@ public class Podio implements Serializable {
         exit(0);
     }
     public int getPlayerPosition(Player player) {
+        System.out.println("GetPlayerPosition " + podio.indexOf(player));
         return podio.indexOf(player)+1;
     }
 }

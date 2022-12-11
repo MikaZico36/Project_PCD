@@ -61,7 +61,7 @@ public class GameGuiMain implements Observer {
 				byte power = (byte) Math.round(Math.random() * Game.MAX_INITIAL_STRENGTH);
 				if (power == 0) power = 1;
 
-				BotPlayer bot = new BotPlayer(i, power, game.getPodio());
+				BotPlayer bot = new BotPlayer(i, /*power*/ (byte) 0 , game.getPodio());
 				game.addPlayerToGame(bot);
 
 			}
