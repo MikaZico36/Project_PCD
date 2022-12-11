@@ -66,6 +66,9 @@ public abstract class Player implements Serializable {
 		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
 		game.notifyChange();
+
+		System.out.println("Sou o move e a tua strength é " + this.getCurrentStrength());
+
 	}
 
 	private void resolveConflict(Player enemy) {
@@ -79,7 +82,15 @@ public abstract class Player implements Serializable {
 			if(random == 0)		this.kill(enemy);
 			else 				enemy.kill(this);
 		}
+		if (this.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH) {
 
+			podio.countDown(this);	// TODO Maybe mandar isto para o player geral se fizer sentido
+			try {
+				podio.await();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	private void kill(Player deadPlayer) {
