@@ -36,6 +36,7 @@ public class Game extends Observable implements Serializable  {
 				board[x][y] = new Cell(new Coordinate(x, y), this);
 	}
 
+
 	/**
 	 * De modo a obter sempre a mesma instância da Classe Game sem ter que passar por variáveis, implementou-se o padrão singleton
 	 * @return Instância da classe Game

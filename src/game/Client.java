@@ -24,32 +24,23 @@ public class Client extends Thread {
     private PrintWriter out;
     private Socket serverSocket;
     private JFrame frame = new JFrame("client");
-
+    private BoardJComponent board = new BoardJComponent(null, false);
     private boolean controller = true;
 
     @Override
     public void run() {
-        //TODO Human Player run() method
         makeConnections();
-        frame.setSize(800, 800);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setFocusable(true);
-        jframeSupport();
-        Game game = null;
-        BoardJComponent board = new BoardJComponent(game, false);
+        createMainFrame();
+
         while (controller) { // O server trata de fechar a ligacao
             try {
-                game = (Game) in.readObject();
-               board.updateGame(game);
-                //BoardJComponent board = (BoardJComponent) in.readObject();
+                Game game = (Game) in.readObject();
+                board.updateGame(game);         // Ao receber um novo game, temos que atualizar o nosso BoardJComponent board
                 updateFrame(board);
-
-                //TODO PROBLEMA ESTÁ  NA DETEÇÃO DAS TECLAS
 
                 if (board.getLastPressedDirection() != null) {
                     System.out.println(" TECLA CLICADA" + board.getLastPressedDirection());
                     out.println(board.getLastPressedDirection().toString());
-                    //out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())),true);
                     board.clearLastPressedDirection();
                 }
 
@@ -77,6 +68,12 @@ public class Client extends Thread {
         }
     }
 
+    private void createMainFrame() {
+        frame.setSize(800, 800);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setFocusable(true);
+        jframeSupport();
+    }
     private void updateFrame(BoardJComponent board) {
         frame.getContentPane().removeAll();
         frame.add(board);
