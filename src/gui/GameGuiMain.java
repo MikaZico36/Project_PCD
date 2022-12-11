@@ -14,7 +14,7 @@ import game.HumanPlayer;
 
 import javax.swing.JFrame;
 
-public class GameGuiMain implements Observer, Serializable {
+public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
 	private static BoardJComponent boardGui;
 	private Game game;

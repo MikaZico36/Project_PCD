@@ -41,6 +41,10 @@ public class ClientHandler extends Thread{
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada
             }catch (IOException e) {
                 //throw new RuntimeException(e);
+                if(!(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)) {
+                    player.getCurrentCell().unsetPlayer();
+                    player.unSetCell();
+                }
             }
 
         }

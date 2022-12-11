@@ -22,7 +22,7 @@ public class Podio implements Serializable {
     }
 
     public synchronized void countDown(Player player){
-        podio.add(player); //TODO MUDAR
+        podio.add(player);
         count--;
         if(isFinished())
             notifyAll();

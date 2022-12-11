@@ -11,7 +11,7 @@ import environment.Cell;
 import environment.Coordinate;
 
 
-public class Game extends Observable implements Serializable  {
+public class Game extends Observable  {
 	public static final int SERVER_PORT = 2438;
 
 	public static final int DIMY = 30;
@@ -22,7 +22,7 @@ public class Game extends Observable implements Serializable  {
 	public static final double MAX_INITIAL_STRENGTH = 3;
 	public static final long MAX_WAITING_TIME_FOR_MOVE = 2000;
 	public static final byte MAX_PLAYER_STRENGTH = 10;
-	public static final byte INITIAL_HUMAN_STRENGTH = 5;
+	public static final byte INITIAL_HUMAN_STRENGTH = 9;
 	public static final long INITIAL_WAITING_TIME = 10000;
 
 	protected Cell[][] board;
@@ -54,7 +54,7 @@ public class Game extends Observable implements Serializable  {
 	 * @param player O jogador que queremos adicionar
 	 */
 	public void addPlayerToGame(Player player)  {
-		if(player instanceof BotPlayer) {
+		if(!player.isHumanPlayer()) {
 			Thread botPlayer = new Thread((BotPlayer) player);
 			botPlayer.start();
 		}

@@ -18,12 +18,12 @@ import static java.lang.Thread.sleep;
  */
 public abstract class Player implements Serializable {
 
-	protected Game game = Game.getGame();
+	protected transient Game game = Game.getGame();
 	private int id;
 	protected Cell position;
 	private byte currentStrength;
 	protected final byte originalStrength;
-	protected Podio podio;
+	protected transient Podio podio;
 
 	public Player(int id, byte strength, Podio podio) {
 		super();
@@ -37,15 +37,13 @@ public abstract class Player implements Serializable {
 	public abstract Direction chosenDirection();
 
 	public synchronized void move() {
-
+		// Verificar se o player esta atualmente associado a uma Cell
 		Cell currentCell = getCurrentCell();
 		if(currentCell == null)			return;
 
 		Coordinate destinationCoordinate = chosenDirection().getVector();
 		Cell destinationCell = game.getCell(currentCell.getPosition().translate(destinationCoordinate));  //Vou buscar a célula para onde o player quer se mover
-		if(destinationCell == null)		return;
-
-		//System.out.println(destinationCell.getCoordinate());
+		if(destinationCell == null)		return;//Verificar se a Cell destino existe
 
 		if(destinationCell.isOccupied()) {
 			if(destinationCell.getPlayer().getCurrentStrength() == 10 ||
@@ -58,7 +56,7 @@ public abstract class Player implements Serializable {
 				return;
 			}
 			resolveConflict(destinationCell.getPlayer());
-			game.notifyChange();	//TODO ver se e mesmo necessario esta linha
+			game.notifyChange();
 			return;
 		}
 

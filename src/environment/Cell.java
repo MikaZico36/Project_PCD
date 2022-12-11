@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class Cell implements Serializable {
 	private Coordinate position;
-	private Game game;
+	private transient Game game;
 	private Player player=null;
 
 	private Lock lock;
