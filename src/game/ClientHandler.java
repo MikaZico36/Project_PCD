@@ -28,24 +28,19 @@ public class ClientHandler extends Thread{
         makeConnections();      //Estabelece a ligacao com o cliente, assim como inicializar out e in
         Game game = Game.getGame();
         BoardJComponent board = GameGuiMain.getBoardGui();
-        while(clientSocket != null /*&& !player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH*/) { //TODO Quando player morrer fazemos como? talvez idk
+        while(clientSocket != null && !player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
 
             try {
                 out.reset();
                 out.writeObject(game.getBoard());
 
-                if(!player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
-
-                    String direction = in.readLine();
-                    choosePlayerDirection(direction);
-
-                    player.move();
-                }
-                out.writeObject(game.getBoard());
+                String direction = in.readLine();
+                choosePlayerDirection(direction);
+                player.move();
             } catch(SocketTimeoutException e) {
-                //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada
+                //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada, mesmo quando o player nao envia direcoes
             }catch (IOException e) {
-                //throw new RuntimeException(e);
+                //Quando o jogador se desconecta, se este venceu ou morreu, ele permance no jogo como obstaculo. Senao, se saiu a meio sem morrer nem ganhar, ele simplesmente desaparece
                 if(!(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)) {
                     player.getCurrentCell().unsetPlayer();
                     player.unSetCell();
@@ -69,7 +64,7 @@ public class ClientHandler extends Thread{
     }
 
     private void choosePlayerDirection(String direction) {
-        switch(direction) { //TODO Ver se podemos usar : em vez de ->
+        switch(direction) {
             case "UP":
                 player.setChosenDirection(Direction.UP);
                 break;

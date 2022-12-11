@@ -56,7 +56,6 @@ public class Client extends Thread {
                 }
 
             } catch (IOException | ClassNotFoundException e) {
-                System.out.println("Entrei no catch d IO");
                 closeSocket();
                 System.exit(0);
             }

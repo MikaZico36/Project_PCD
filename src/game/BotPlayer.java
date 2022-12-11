@@ -60,14 +60,5 @@ public class BotPlayer extends Player implements Runnable {
 			}
 
 		}
-	/*	if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH) {
-
-			podio.countDown(this);	// TODO Maybe mandar isto para o player geral se fizer sentido
-			try {
-				podio.await();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		}*/
 	}
 }

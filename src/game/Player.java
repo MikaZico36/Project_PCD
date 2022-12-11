@@ -46,23 +46,23 @@ public abstract class Player implements Serializable {
 		if(destinationCell == null)		return;//Verificar se a Cell destino existe
 
 		if(destinationCell.isOccupied()) {
-			if(destinationCell.getPlayer().getCurrentStrength() == 10 ||
-					destinationCell.getPlayer().getCurrentStrength() == 0){
+			if(destinationCell.getPlayer().getCurrentStrength() == 10 || destinationCell.getPlayer().getCurrentStrength() == 0){ // Se a Cell destino estiver ocupada com um obstaculo, perde-se este ciclo, aborta-se o movimento
 				try {
-					Thread.sleep(Game.MAX_WAITING_TIME_FOR_MOVE);
+					if(!isHumanPlayer())	Thread.sleep(Game.MAX_WAITING_TIME_FOR_MOVE);	//Se um BotPlayer se mover para o obstaculo, este tem que esperar
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);
 				}
 				return;
 			}
+			// Caso a Cell esteja ocupada por um jogador vivo, resolve-se o conflito
 			resolveConflict(destinationCell.getPlayer());
 			game.notifyChange();
 			return;
 		}
 
 		destinationCell.setPlayer(this);	//Digo que o "player" agora faz parte dessa célula
-		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
+		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
 		game.notifyChange();
 
 		System.out.println("Sou o move e a tua strength é " + this.getCurrentStrength());
@@ -82,7 +82,7 @@ public abstract class Player implements Serializable {
 		}
 		if (this.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH) {
 
-			podio.countDown(this);	// TODO Maybe mandar isto para o player geral se fizer sentido
+			podio.countDown(this);
 			try {
 				podio.await();
 			} catch (InterruptedException e) {
