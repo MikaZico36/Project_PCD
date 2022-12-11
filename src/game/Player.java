@@ -41,10 +41,6 @@ public abstract class Player implements Serializable {
 
 	public synchronized void move() {
 
-		if(this instanceof HumanPlayer && this.getCurrentCell().getPosition() != null){
-			System.out.println("Entrei no move " + this.chosenDirection() + "Coordenadas " + this.getCurrentCell().getPosition());
-		}
-
 		Cell currentCell = getCurrentCell();
 		if(currentCell == null)			return;
 

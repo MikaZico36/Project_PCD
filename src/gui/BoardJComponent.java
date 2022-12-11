@@ -96,7 +96,6 @@ public class BoardJComponent extends JComponent implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyCode());
 		if(alternativeKeys) {
 			switch(e.getKeyCode()){
 			case  KeyEvent.VK_A:
@@ -121,7 +120,6 @@ public class BoardJComponent extends JComponent implements KeyListener {
 				lastPressedDirection=environment.Direction.RIGHT;
 				break;
 			case KeyEvent.VK_UP:
-				System.out.println("Entrei no UP");
 				lastPressedDirection=environment.Direction.UP;
 				break;
 			case KeyEvent.VK_DOWN:

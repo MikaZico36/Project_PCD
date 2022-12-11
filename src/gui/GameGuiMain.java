@@ -96,10 +96,7 @@ public class GameGuiMain implements Observer, Serializable {
 
 					Socket clientSocket = ss.accept();		// Este metodo faz um wait() enquanto espera por pedidos
 
-					byte power = (byte) Math.round(Math.random() * Game.MAX_INITIAL_STRENGTH);
-					// Criação do HumanPlayer
-					if (power == 0) power = 1;
-					HumanPlayer player = new HumanPlayer(humanPlayer_id, power, game.getPodio());
+					HumanPlayer player = new HumanPlayer(humanPlayer_id, Game.INITIAL_HUMAN_STRENGTH, game.getPodio());
 					game.addPlayerToGame(player);
 					humanPlayer_id++;
 

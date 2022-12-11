@@ -1,5 +1,6 @@
 package game;
 
+import environment.Cell;
 import environment.Direction;
 import gui.BoardJComponent;
 import gui.GameGuiMain;
@@ -16,7 +17,7 @@ public class Client extends Thread {
 
 
     public static void main(String[] args) {
-        Client client = new Client();
+        Client client = new Client("localhost", Game.SERVER_PORT, true);
         client.start();
     }
 
@@ -24,8 +25,20 @@ public class Client extends Thread {
     private PrintWriter out;
     private Socket serverSocket;
     private JFrame frame = new JFrame("client");
-    private BoardJComponent board = new BoardJComponent(null, false);
+    private BoardJComponent board;
     private boolean controller = true;
+
+    //Connection Variables
+    private final String address;
+    private final int port;
+    private final boolean alternativeKeys;
+
+    public Client(String address, int port, boolean alternativeKeys) {
+        this.address = address;
+        this.port = port;
+        this.alternativeKeys = alternativeKeys;
+        this.board = new BoardJComponent(null, alternativeKeys);
+    }
 
     @Override
     public void run() {
@@ -34,12 +47,12 @@ public class Client extends Thread {
 
         while (controller) { // O server trata de fechar a ligacao
             try {
-                Game game = (Game) in.readObject();
+                Cell[][] cellBoard = (Cell[][]) in.readObject();
+                Game game = new Game(cellBoard);
                 board.updateGame(game);         // Ao receber um novo game, temos que atualizar o nosso BoardJComponent board
                 updateFrame(board);
 
                 if (board.getLastPressedDirection() != null) {
-                    System.out.println(" TECLA CLICADA" + board.getLastPressedDirection());
                     out.println(board.getLastPressedDirection().toString());
                     board.clearLastPressedDirection();
                 }
@@ -59,7 +72,7 @@ public class Client extends Thread {
 
     private void makeConnections() {
         try {
-            serverSocket = new Socket("localhost", Game.SERVER_PORT);
+            serverSocket = new Socket(address, port);
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())), true);
             in = new ObjectInputStream(serverSocket.getInputStream());
 

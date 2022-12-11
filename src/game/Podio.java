@@ -26,7 +26,6 @@ public class Podio implements Serializable {
         count--;
         if(isFinished())
             notifyAll();
-        System.out.println("Podio " + isFinished()  + " " + count);
     }
 
     public boolean isFinished() {
@@ -40,13 +39,18 @@ public class Podio implements Serializable {
     }
 
     private void lugaresPodio() {
-        System.out.println("Entrei no Lugar");
         if (isFinished()) {
             for (int i = 1; i <= podio.size(); i++) {
                 switch (i) {
-                    case 1 -> System.out.println(ANSI_RED + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
-                    case 2 -> System.out.println(ANSI_GREEN + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
-                    case 3 -> System.out.println(ANSI_BLUE + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
+                    case 1:
+                        System.out.println(ANSI_RED + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
+                        break;
+                    case 2:
+                        System.out.println(ANSI_GREEN + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
+                        break;
+                    case 3:
+                        System.out.println(ANSI_BLUE + "O " + i + " lugar é o Player... " + podio.get(i-1).getIdentification() + ANSI_RESET);
+                        break;
                 }
             }
         }
@@ -55,6 +59,6 @@ public class Podio implements Serializable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    exit(0);
+        exit(0);
     }
 }

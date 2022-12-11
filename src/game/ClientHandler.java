@@ -31,20 +31,12 @@ public class ClientHandler extends Thread{
         while(clientSocket != null && !player.isDead()) { //TODO Quando player morrer fazemos como? talvez idk
             try {
                 out.reset();
-                out.writeObject(game);
-                //out.writeObject(board);
-                in= new BufferedReader(
-                        new InputStreamReader(
-                                clientSocket.getInputStream()));
-
+                out.writeObject(game.getBoard());
 
                 String direction = in.readLine();
-                System.out.println(direction);
                 choosePlayerDirection(direction);
-                System.out.println("player Direção " + player.chosenDirection());
 
-
-                player.move();      // TODO ver se podemos integrar isto no choosePlayerDirection()
+                player.move();
             } catch(SocketTimeoutException e) {
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada
             }catch (IOException e) {
@@ -69,13 +61,18 @@ public class ClientHandler extends Thread{
 
     private void choosePlayerDirection(String direction) {
         switch(direction) { //TODO Ver se podemos usar : em vez de ->
-            case "UP" -> {
-                System.out.println("Entrei no UP no Handler");
+            case "UP":
                 player.setChosenDirection(Direction.UP);
-            }
-            case "DOWN"->    player.setChosenDirection(Direction.DOWN);
-            case "LEFT"->    player.setChosenDirection(Direction.LEFT);
-            case "RIGHT"->   player.setChosenDirection(Direction.RIGHT);
+                break;
+            case "DOWN":
+                player.setChosenDirection(Direction.DOWN);
+                break;
+            case "LEFT":
+                player.setChosenDirection(Direction.LEFT);
+                break;
+            case "RIGHT":
+                player.setChosenDirection(Direction.RIGHT);
+                break;
         }
 
     }

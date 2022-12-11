@@ -22,6 +22,7 @@ public class Game extends Observable implements Serializable  {
 	public static final double MAX_INITIAL_STRENGTH = 3;
 	public static final long MAX_WAITING_TIME_FOR_MOVE = 2000;
 	public static final byte MAX_PLAYER_STRENGTH = 10;
+	public static final byte INITIAL_HUMAN_STRENGTH = 5;
 	public static final long INITIAL_WAITING_TIME = 10000;
 
 	protected Cell[][] board;
@@ -35,7 +36,9 @@ public class Game extends Observable implements Serializable  {
 			for (int y = 0; y < Game.DIMY; y++)
 				board[x][y] = new Cell(new Coordinate(x, y), this);
 	}
-
+	public Game(Cell[][] board) {
+		this.board = board;
+	}
 
 	/**
 	 * De modo a obter sempre a mesma instância da Classe Game sem ter que passar por variáveis, implementou-se o padrão singleton
@@ -72,6 +75,9 @@ public class Game extends Observable implements Serializable  {
 		return board[at.x][at.y];
 	}
 
+	public Cell[][] getBoard() {
+		return board;
+	}
 	/**	
 	 * Updates GUI. Should be called anytime the game state changes
 	 */
