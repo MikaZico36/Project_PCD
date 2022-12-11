@@ -101,6 +101,10 @@ public abstract class Player implements Serializable {
 		position = c;
 	}
 
+	public void unSetCell(){
+		position = null;
+	}
+
 	public byte getOriginalStrength() {
 		return originalStrength;
 	}

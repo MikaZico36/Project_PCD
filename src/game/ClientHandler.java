@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+
 public class ClientHandler extends Thread{
     private final Socket clientSocket;
     private ObjectOutputStream out;
@@ -27,9 +28,7 @@ public class ClientHandler extends Thread{
         makeConnections();      //Estabelece a ligacao com o cliente, assim como inicializar out e in
         Game game = Game.getGame();
         BoardJComponent board = GameGuiMain.getBoardGui();
-        //HumanPlayer player = new HumanPlayer(100, (byte) 3, game.getPodio());
-        //game.addPlayerToGame(player);
-        while(true) { //TODO Quando player morrer fazemos como? talvez idk
+        while(clientSocket != null && !player.isDead()) { //TODO Quando player morrer fazemos como? talvez idk
             try {
                 out.reset();
                 out.writeObject(game);
@@ -49,10 +48,23 @@ public class ClientHandler extends Thread{
             } catch(SocketTimeoutException e) {
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada
             }catch (IOException e) {
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
             }
 
         }
+        try {
+            in.close();
+            out.close();
+            clientSocket.close();
+
+        } catch (IOException i) {
+            System.err.println("Erro ao fechar");
+        }finally {
+            closeSilently(clientSocket);
+        }
+
+
+
     }
 
     private void choosePlayerDirection(String direction) {
@@ -76,4 +88,17 @@ public class ClientHandler extends Thread{
             throw new RuntimeException(e);
         }
     }
+
+    public static void closeSilently(Socket s) {
+        if (s != null) {
+            try {
+                s.close();
+            } catch (IOException e2) {
+                // do more logging if appropiate
+            }
+        }
+    }
+
+
+
 }

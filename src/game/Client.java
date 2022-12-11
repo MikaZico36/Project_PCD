@@ -5,11 +5,13 @@ import gui.BoardJComponent;
 import gui.GameGuiMain;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.Socket;
 import java.util.function.Predicate;
 
-public class Client extends Thread{
+public class Client extends Thread {
     // TODO CRIAR CONSTRUTOR COMO TA NO ENUNCIADO
 
 
@@ -17,20 +19,24 @@ public class Client extends Thread{
         Client client = new Client();
         client.start();
     }
+
     private ObjectInputStream in;
     private PrintWriter out;
     private Socket serverSocket;
     private JFrame frame = new JFrame("client");
 
+    private boolean controller = true;
+
     @Override
     public void run() {
         //TODO Human Player run() method
         makeConnections();
-        frame.setSize(800,800);
+        frame.setSize(800, 800);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setFocusable(true);
-        while(true) { // O server trata de fechar a ligacao
+        jframeSupport();
 
+        while (controller) { // O server trata de fechar a ligacao
             try {
                 Game game = (Game) in.readObject();
                 BoardJComponent board = new BoardJComponent(game, false);
@@ -39,20 +45,28 @@ public class Client extends Thread{
 
                 //TODO PROBLEMA ESTÁ  NA DETEÇÃO DAS TECLAS
 
-                    if (board.getLastPressedDirection() != null) {
-                        System.out.println( " TECLA CLICADA" + board.getLastPressedDirection());
-                        out.println(board.getLastPressedDirection().toString());
-                        //out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())),true);
+                if (board.getLastPressedDirection() != null) {
+                    System.out.println(" TECLA CLICADA" + board.getLastPressedDirection());
+                    out.println(board.getLastPressedDirection().toString());
+                    //out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())),true);
 
 
-                        board.clearLastPressedDirection();
-                    }
+                    board.clearLastPressedDirection();
+                }
 
             } catch (IOException | ClassNotFoundException e) {
-               throw new RuntimeException(e);
+                throw new RuntimeException(e);
             }
         }
+        try {
+            in.close();
+            out.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
     private void makeConnections() {
         try {
             serverSocket = new Socket("localhost", Game.SERVER_PORT);
@@ -70,5 +84,21 @@ public class Client extends Thread{
         frame.addKeyListener(board);
         frame.setVisible(true);
         frame.repaint();
+    }
+
+    private void jframeSupport() {
+        JFrame frameJ = new JFrame("Quer sair?");
+        frameJ.setSize(100, 100);
+        frameJ.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        JButton button = new JButton("Sair");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller = false;
+                System.exit(0);
+            }
+        });
+        frameJ.add(button);
+        frameJ.setVisible(true);
     }
 }
