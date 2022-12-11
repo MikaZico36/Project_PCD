@@ -29,29 +29,29 @@ public class ClientHandler extends Thread{
     public void run() {
         makeConnections();      //Estabelece a ligacao com o cliente, assim como inicializar out e in
         Game game = Game.getGame();
-        boolean verify = false;
-        while(clientSocket != null) {
+        boolean verify = false;  //Tem como objetivo não repetir o primeiro if presente no ciclo while
+        while (clientSocket != null) {
 
             try {
-                out.reset();
-                out.writeObject(new GameStatus(game.getBoard(), generatePlayerStatusMessage()));
-                if(player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH && verify == false){
+                if (player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH && verify == false) {
                     player.setOnPodio();
                     verify = true;
                 }
-                if(!player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
+                out.reset();
+                out.writeObject(new GameStatus(game.getBoard(), generatePlayerStatusMessage()));  //Recebe a Matriz de Cells do game e uma mensagem do Servidor
+                if (!player.isDead() && player.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
                     String direction = in.readLine();
                     choosePlayerDirection(direction);
                     player.move();
                     System.out.println(player.getCurrentCell().getPosition());
                 }
-            } catch(SocketTimeoutException e) {
+            } catch (SocketTimeoutException e) {
                 //Aqui nao se faz nada, de modo a repetir o loop e passar a janela atualizada, mesmo quando o player nao envia direcoes
-            }catch (IOException e) {
+            } catch (IOException e) {
                 //Quando o jogador se desconecta, se este venceu ou morreu, ele permance no jogo como obstaculo. Senao, se saiu a meio sem morrer nem ganhar, ele simplesmente desaparece
-                if(!(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)) {
+                if (!(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)) {
                     Cell playerCell = player.getCurrentCell();
-                    if(playerCell != null) player.getCurrentCell().unsetPlayer();
+                    if (playerCell != null) player.getCurrentCell().unsetPlayer();
                     player.unSetCell();
 
                 }
@@ -66,11 +66,7 @@ public class ClientHandler extends Thread{
 
         } catch (IOException i) {
             System.err.println("Erro ao fechar");
-        }finally {
-            closeSilently(clientSocket);
         }
-
-
 
     }
 
@@ -95,27 +91,18 @@ public class ClientHandler extends Thread{
         try {
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            //Este Timeout
             clientSocket.setSoTimeout((int) Game.REFRESH_INTERVAL);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
-    public static void closeSilently(Socket s) {
-        if (s != null) {
-            try {
-                s.close();
-            } catch (IOException e2) {
-                // do more logging if appropiate
-            }
-        }
-    }
-
+    //Esta função gera as mesnagens que serão enviadas ao Cliente. Informam se o Cliente morreu ou em que lugar acabou no pódio
     private String generatePlayerStatusMessage() {
         if(player.isDead())
             return "O Player morreu";
         if(player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)
-            return "Ficaste em " + player.getPodio().getPlayerPosition(player) + " lugar";
+            return "Ficaste em " + Game.getGame().getPodio().getPlayerPosition(player) + " lugar";
         return "";
     }
 

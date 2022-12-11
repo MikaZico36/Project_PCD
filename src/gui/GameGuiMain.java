@@ -29,7 +29,7 @@ public class GameGuiMain implements Observer {
 		buildGui();
 
 	}
-
+//Função estática que retorna a BoardJComponent do GameGUIMain
 	public static BoardJComponent getBoardGui(){
 		return boardGui;
 	}
@@ -54,19 +54,15 @@ public class GameGuiMain implements Observer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-		//game.getPodio().start();
-
+			//Ciclo for que cria todos os botPlayers do jogo
 			for (int i = 0; i < Game.NUM_PLAYERS; i++) {
 				byte power = (byte) Math.round(Math.random() * Game.MAX_INITIAL_STRENGTH);
 				if (power == 0) power = 1;
 
-				BotPlayer bot = new BotPlayer(i, /*power*/ (byte) 0 , game.getPodio());
+				BotPlayer bot = new BotPlayer(i, power , game.getPodio());
 				game.addPlayerToGame(bot);
 
 			}
-			BotPlayer newBot = new BotPlayer(6969, (byte)0, game.getPodio());
-			game.addPlayerToGame(newBot);
 	}
 
 	@Override
@@ -80,8 +76,8 @@ public class GameGuiMain implements Observer {
 
 
 	}
-
-	public class GameServer extends Thread{ //TODO Verificar se faz sentido isto ser uma Thread [UPDATE: FAZ SENTIDO SENAO GAME FICA EM ESPERA]
+//GameServer é a Thread que trata das ligações com os clientes. É neessário para que o Game não fique em modo espera.
+	public class GameServer extends Thread{
 		private final Game game = Game.getGame();
 		private final ServerSocket ss = new ServerSocket(Game.SERVER_PORT);
 
@@ -90,7 +86,7 @@ public class GameGuiMain implements Observer {
 
 		@Override
 		public void run() {
-			int humanPlayer_id = 1000;
+			int humanPlayer_id = 1000;//Por default o ID dos cliente é sempre maior que 1000.
 			while(true) {
 				try {
 
@@ -99,7 +95,7 @@ public class GameGuiMain implements Observer {
 					HumanPlayer player = new HumanPlayer(humanPlayer_id, Game.INITIAL_HUMAN_STRENGTH, game.getPodio());
 					game.addPlayerToGame(player);
 					humanPlayer_id++;
-
+					//Cria um ClientHandler para cada cliente que se junta ao jogo
 					new ClientHandler(clientSocket, player).start();
 
 				} catch (IOException e) {

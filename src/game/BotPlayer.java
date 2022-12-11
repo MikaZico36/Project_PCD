@@ -5,11 +5,6 @@ import environment.Direction;
 
 import static java.lang.Thread.sleep;
 
-/**
- * Class to demonstrate a player being added to the game.
- * @author luismota
- *
- */
 public class BotPlayer extends Player implements Runnable {
 	public BotPlayer(int id, byte strength, Podio podio) {
 		super(id, strength, podio);
@@ -20,7 +15,7 @@ public class BotPlayer extends Player implements Runnable {
 		return false;
 	}
 
-	//Função que calcula de forma random para onde o player se vai mover 
+	//Função que calcula de forma random para onde o playerBot se vai mover
 
 	@Override
 	public Direction chosenDirection() {
@@ -61,14 +56,21 @@ public class BotPlayer extends Player implements Runnable {
 
 		}
 		if (this.getCurrentStrength() >= Game.MAX_PLAYER_STRENGTH) {
-			podio.countDown(this);
-			try {
-				if(!isHumanPlayer())	podio.await();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
+			setOnPodio();
+		}
+	}
+
+	//Fazemos Override deste método pois no HumanPlayer tem um funcionamento diferente. Aqui precisamos que o botPlayer seja colocado em espera assim que ganha o jogo
+	@Override
+	public void setOnPodio(){
+		super.setOnPodio();
+		try {
+			if(!isHumanPlayer())	podio.await();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
 		}
 
-
 	}
+
+
 }

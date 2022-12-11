@@ -28,10 +28,4 @@ public class HumanPlayer extends Player{
         this.chosenDirection = direction;
     }
 
-    public void setOnPodio(){
-            podio.countDown(this);
-
-    }
-
-
 }

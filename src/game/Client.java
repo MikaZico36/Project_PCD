@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.function.Predicate;
 
@@ -28,7 +29,7 @@ public class Client extends Thread {
     private boolean hasPrintedStatus = false;
 
     public Client(String address, int port, boolean alternativeKeys) throws IOException {
-        serverSocket = new Socket(address, port);
+        serverSocket = new Socket(InetAddress.getByName(address) , port);
         this.board = new BoardJComponent(null, alternativeKeys);
     }
 
@@ -45,12 +46,13 @@ public class Client extends Thread {
                 Game game = new Game(cellBoard);
                 board.updateGame(game);         // Ao receber um novo game, temos que atualizar o nosso BoardJComponent board
                 updateFrame(board);
-
+//quando premimos uma tecla do lado do cliente, a Thread envia para o Servidor a direção escolhida na forma de String através de um canal de texto
                 if (board.getLastPressedDirection() != null) {
                     out.println(board.getLastPressedDirection().toString());
-                    board.clearLastPressedDirection();
+                    board.clearLastPressedDirection();/*Por fim voltamos a colocar a direção selecionada de novo a null para evitar um
+                                                        movimento contínuo*/
                 }
-
+//Quando o Server termina antes do cliente, o cliente fecha os seus canais e termina o seu processo
             } catch (IOException | ClassNotFoundException e) {
                 closeSocket();
                 System.exit(0);
@@ -75,13 +77,14 @@ public class Client extends Thread {
             throw new RuntimeException(e);
         }
     }
-
+//Criamos um JFrame do lado do cliente
     private void createMainFrame() {
         frame.setSize(800, 800);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setFocusable(true);
         jframeSupport();
     }
+    //Permite substituir a BoardJComponent anterior por uma mais recente recebida pelo Servidor
     private void updateFrame(BoardJComponent board) {
         frame.getContentPane().removeAll();
         frame.add(board);
@@ -89,7 +92,7 @@ public class Client extends Thread {
         frame.setVisible(true);
         frame.repaint();
     }
-
+//JFrame com um botão de sair que permite ao cliente desconectar-se do jogo e ainda fechar os canais de ligação
     private void jframeSupport() {
         JFrame frameJ = new JFrame("Quer sair?");
         frameJ.setSize(100, 100);

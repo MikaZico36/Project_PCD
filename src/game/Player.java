@@ -11,11 +11,6 @@ import java.util.concurrent.CyclicBarrier;
 
 import static java.lang.Thread.sleep;
 
-/**
- * Represents a player.
- * @author luismota
- *
- */
 public abstract class Player implements Serializable {
 
 	protected transient Game game = Game.getGame();
@@ -68,14 +63,19 @@ public abstract class Player implements Serializable {
 	public Podio getPodio() {
 		return podio;
 	}
+//Coloca o player no podio
+	public void setOnPodio(){
+		podio.countDown(this);
+
+	}
 
 	private void resolveConflict(Player enemy) {
-		byte enemyPower = enemy.getCurrentStrength();
-		if(enemyPower > this.getCurrentStrength())
-			enemy.kill(this);
-		else if(enemyPower < this.getCurrentStrength())
+		byte enemyPower = enemy.getCurrentStrength(); //Strength do inimigo
+		if(enemyPower > this.getCurrentStrength()) //Se o player for mais fraco que o inimigo perde a batalha e chama o método kill() e mata o player
+ 			enemy.kill(this);
+		else if(enemyPower < this.getCurrentStrength())//Se o inimigo é mais fraco que o player, então será o inimigo a morrer pelo método kill()
 			this.kill(enemy);
-		else {
+		else { //Em caso de empate, o vencedor da batalha é decidido de forma aleatória
 			int random = (int) Math.round(Math.random());
 			if(random == 0)		this.kill(enemy);
 			else 				enemy.kill(this);
@@ -83,12 +83,12 @@ public abstract class Player implements Serializable {
 	}
 
 	private void kill(Player deadPlayer) {
-		byte deadPlayerPoints = deadPlayer.getCurrentStrength();
-		this.setCurrentStrength((byte) (getCurrentStrength() + deadPlayerPoints));
+		byte deadPlayerPoints = deadPlayer.getCurrentStrength(); //Força do player que morreu
+		this.setCurrentStrength((byte) (getCurrentStrength() + deadPlayerPoints)); //Acrescenta a força do player que morreu ao vencedor
 		if(this.getCurrentStrength() >=Game.MAX_PLAYER_STRENGTH ){
-			this.setCurrentStrength(Game.MAX_PLAYER_STRENGTH);
+			this.setCurrentStrength(Game.MAX_PLAYER_STRENGTH); //Se a força ultrapassar os 10 pontos então é colocada a 10.
 		}
-		deadPlayer.setCurrentStrength((byte) 0);
+		deadPlayer.setCurrentStrength((byte) 0); //O player morto tem  a sua força alterada para 0 pontos
 	}
 	public void setCell(Cell c) {
 		position = c;
