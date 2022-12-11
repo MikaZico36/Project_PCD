@@ -13,8 +13,6 @@ import java.net.Socket;
 import java.util.function.Predicate;
 
 public class Client extends Thread {
-    // TODO CRIAR CONSTRUTOR COMO TA NO ENUNCIADO
-
 
     public static void main(String[] args) {
         Client client = new Client("localhost", Game.SERVER_PORT, true);

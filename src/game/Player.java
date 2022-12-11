@@ -25,9 +25,6 @@ public abstract class Player implements Serializable {
 	protected final byte originalStrength;
 	protected Podio podio;
 
-
-	// TODO: get player position from data in game
-
 	public Player(int id, byte strength, Podio podio) {
 		super();
 		this.id = id;
