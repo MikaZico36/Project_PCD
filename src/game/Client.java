@@ -35,11 +35,12 @@ public class Client extends Thread {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setFocusable(true);
         jframeSupport();
-
+        Game game = null;
+        BoardJComponent board = new BoardJComponent(game, false);
         while (controller) { // O server trata de fechar a ligacao
             try {
-                Game game = (Game) in.readObject();
-                BoardJComponent board = new BoardJComponent(game, false);
+                game = (Game) in.readObject();
+               board.updateGame(game);
                 //BoardJComponent board = (BoardJComponent) in.readObject();
                 updateFrame(board);
 
@@ -49,8 +50,6 @@ public class Client extends Thread {
                     System.out.println(" TECLA CLICADA" + board.getLastPressedDirection());
                     out.println(board.getLastPressedDirection().toString());
                     //out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(serverSocket.getOutputStream())),true);
-
-
                     board.clearLastPressedDirection();
                 }
 

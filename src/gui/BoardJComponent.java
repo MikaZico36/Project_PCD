@@ -154,4 +154,8 @@ public class BoardJComponent extends JComponent implements KeyListener {
 		return game;
 	}
 
+	public void updateGame(Game game){
+		this.game = game;
+	}
+
 }
