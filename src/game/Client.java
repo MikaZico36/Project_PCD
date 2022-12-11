@@ -13,11 +13,11 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.function.Predicate;
 
-public class Client extends Thread {
+public class Client {
 
     public static void main(String[] args) throws IOException {
         Client client = new Client("localhost", Game.SERVER_PORT, true);
-        client.start();
+        client.runClient();
     }
 
     private ObjectInputStream in;
@@ -33,8 +33,8 @@ public class Client extends Thread {
         this.board = new BoardJComponent(null, alternativeKeys);
     }
 
-    @Override
-    public void run() {
+
+    public void runClient() {
         makeConnections();
         createMainFrame();
 
