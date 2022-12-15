@@ -91,8 +91,7 @@ public class ClientHandler extends Thread{
         try {
             out = new ObjectOutputStream(clientSocket.getOutputStream());
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            //Este método verifica se num período de tempo é recebida alguma informação
-            clientSocket.setSoTimeout((int) Game.REFRESH_INTERVAL);
+            clientSocket.setSoTimeout((int) Game.REFRESH_INTERVAL);	      //Este método define um timeout para receber a direção do cliente
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

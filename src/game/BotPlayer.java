@@ -22,10 +22,18 @@ public class BotPlayer extends Player implements Runnable {
 		int prob = (int) Math.round((Math.random() * 3));
 
 		switch (prob) {
-			case 0 -> d = Direction.UP;
-			case 1 -> d = Direction.RIGHT;
-			case 2 -> d = Direction.LEFT;
-			case 3 -> d = Direction.DOWN;
+			case 0:
+				d = Direction.UP;
+				break;
+			case 1:
+				d = Direction.RIGHT;
+				break;
+			case 2:
+				d = Direction.LEFT;
+				break;
+			case 3:
+				d = Direction.DOWN;
+				break;
 		}
 		return d;
 	}

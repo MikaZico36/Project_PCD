@@ -56,7 +56,7 @@ public class Game extends Observable  {
 	public void addPlayerToGame(Player player)  {
 		if(!player.isHumanPlayer()) { //Se o player for um bot terá um tratamento diferente do cliente
 			Thread botPlayer = new Thread((BotPlayer) player);
-			botPlayer.start();
+			botPlayer.start();		//Na thread do BotPlayer, este ja se coloca numa Cell aleatoria
 		}
 		else {
 			getRandomCell().spawnPlayer(player);
