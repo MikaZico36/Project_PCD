@@ -35,13 +35,9 @@ public class Podio implements Serializable {
             lugaresPodio();
         }*/
     }
-//Verifica se o jogo terminou, ou seja se o count está a 0
-    public boolean isFinished() {
-        return count == 0;
-    }
 //Método await() que coloca os playersBot em espera assim que são adicionados ao Podio
     public synchronized void await() throws InterruptedException{
-        while(count >0)
+        if (count >0)
             wait();
     }
 

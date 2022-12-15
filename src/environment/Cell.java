@@ -46,8 +46,6 @@ public class Cell implements Serializable {
 		}finally {
 			lock.unlock();
 		}
-
-
 	}
 
 	//É usado do Player estar no jogo e permite dar Spawn aos Players do jogo

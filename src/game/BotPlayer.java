@@ -50,7 +50,7 @@ public class BotPlayer extends Player implements Runnable {
 		}
 		// Usa-se esta variavel para determinar se o ciclo atual do while é quando o bot se deve mexer, de acordo com o seu original strength
 		int counter = 0;
-		while (!isDead() && this.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH && !podio.isFinished()) {
+		while (!isDead() && this.getCurrentStrength() < Game.MAX_PLAYER_STRENGTH) {
 			counter++;
 			if (counter == getOriginalStrength()) {
 				counter = 0;
