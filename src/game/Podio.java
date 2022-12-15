@@ -26,10 +26,14 @@ public class Podio implements Serializable {
     public synchronized void countDown(Player player){
         podio.add(player);
         count--;
-        if(isFinished()) {
+        if(count == 0) {
             notifyAll();
             lugaresPodio();
         }
+      /*  if(isFinished()) {
+            notifyAll();
+            lugaresPodio();
+        }*/
     }
 //Verifica se o jogo terminou, ou seja se o count está a 0
     public boolean isFinished() {
@@ -37,12 +41,12 @@ public class Podio implements Serializable {
     }
 //Método await() que coloca os playersBot em espera assim que são adicionados ao Podio
     public synchronized void await() throws InterruptedException{
-        while(!isFinished())
+        while(count >0)
             wait();
     }
 
     private void lugaresPodio() {
-        if (isFinished()) {
+        //if (isFinished()) {
             for (int i = 1; i <= podio.size(); i++) {
                 switch (i) {  //Depois de verificar se o jogo terminou, imprime o ID dos players e a sua posição na consola
                     case 1:
@@ -56,7 +60,7 @@ public class Podio implements Serializable {
                         break;
                 }
             }
-        }
+        //}
         //Permite que todas as Threads terminem as suas funções para não serem interrompidas
         try {
             sleep(1000);

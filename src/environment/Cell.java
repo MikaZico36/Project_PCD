@@ -1,11 +1,12 @@
 package environment;
 
 import game.Game;
-import game.HumanPlayer;
-import game.Lock;
+import game.Locks;
 import game.Player;
 
 import java.io.Serializable;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Cell implements Serializable {
 	private Coordinate position;
@@ -13,13 +14,12 @@ public class Cell implements Serializable {
 	private transient Game game;
 	private Player player=null;
 	//O Cadeado que cada Cell irá utilizar
-	private Lock lock;
+	private Lock lock = new ReentrantLock();
 	
 	public Cell(Coordinate position, Game g) {
 		super();
 		this.position = position;
 		this.game = g;
-		lock = new Lock();
 	}
 
 	public Coordinate getPosition() {
@@ -37,12 +37,17 @@ public class Cell implements Serializable {
 
 
 	public void setPlayer(Player player) {
-		lock.tryUnLock();
-		lock.setLocked();
-		this.player = player;
-		player.setCell(this);
-		game.notifyChange();
-		lock.unLocked();
+		lock.lock();
+		try{
+			this.player = player;
+			player.setCell(this);
+			game.notifyChange();
+
+		}finally {
+			lock.unlock();
+		}
+
+
 	}
 
 	//É usado do Player estar no jogo e permite dar Spawn aos Players do jogo
@@ -66,18 +71,22 @@ public class Cell implements Serializable {
 		setPlayer(player);
 		System.out.println("O jogador " + player.getIdentification() + " foi adicionado.");
 	}
+
+
 	public Coordinate getCoordinate() {
 		return position;
 	}
 	
 	public void unsetPlayer() {
-		lock.tryUnLock();
-		lock.setLocked();
-		if(!isOccupied())
-			return;
-		player = null;
-		game.notifyChange();
-		lock.unLocked();
+		lock.lock();
+		try {
+			if (!isOccupied())
+				return;
+			player = null;
+			game.notifyChange();
+		}finally {
+			lock.unlock();
+		}
 
 	}
 

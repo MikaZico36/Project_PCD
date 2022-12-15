@@ -3,10 +3,10 @@ package game;
 import java.io.Serializable;
 /*A nossa classe Lock corresponde aos nossos cadeados que usamos em cada Cell do jogo*/
 
-public class Lock implements Serializable {
+public class Locks implements Serializable {
     private boolean locked;
 
-    public Lock(){
+    public Locks(){
         locked = false;
     }
 //Desbloqueia o lock e notifica todos os processos
