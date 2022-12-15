@@ -23,16 +23,29 @@ public class Cell implements Serializable {
 	}
 
 	public Coordinate getPosition() {
-		return position;
+		lock.lock();
+		try {
+			return position;
+		}finally {
+			lock.unlock();
+		}
 	}
-
 	public boolean isOccupied() {
-		return player!=null;
+		lock.lock();
+		try {
+			return player != null;
+		}finally {
+			lock.unlock();
+		}
 	}
-
 
 	public Player getPlayer() {
-		return player;
+		lock.lock();
+		try {
+			return player;
+		}finally {
+			lock.unlock();
+		}
 	}
 
 
