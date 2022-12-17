@@ -4,20 +4,29 @@ import java.io.Serializable;
 /*A nossa classe Lock corresponde aos nossos cadeados que usamos em cada Cell do jogo*/
 
 public class Locks implements Serializable {
-    private boolean locked;
+    private boolean locked = false;
 
     public Locks(){
-        locked = false;
     }
 //Desbloqueia o lock e notifica todos os processos
-    public synchronized void unLocked(){
-        locked= false;
-        synchronized (this) {
-            notifyAll();
+    public synchronized void unLock(){
+        if(isLocked()) {
+            locked = false;
+            synchronized (this) {
+                notifyAll();
+            }
         }
     }
 //Fecha o lock
-    public synchronized void setLocked() {
+    public synchronized void lock() {
+        if (isLocked()) {
+            try {
+                System.out.println("Vou ficar bloqueado");
+                wait();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
         locked = true;
     }
 //Verifica se o Lock está aberto, se não está fica em espera
@@ -30,4 +39,9 @@ public class Locks implements Serializable {
             }
         }
     }
+
+    private synchronized boolean isLocked(){
+        return locked;
+    }
+
 }

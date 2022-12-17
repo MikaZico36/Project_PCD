@@ -31,35 +31,40 @@ public abstract class Player implements Serializable {
 	public abstract boolean isHumanPlayer();
 	public abstract Direction chosenDirection();
 
-	public synchronized void move() {
+	public void move() {
 		// Verificar se o player esta atualmente associado a uma Cell
 		Cell currentCell = this.getCurrentCell();
 		if(currentCell == null)			return;
 
 		Coordinate destinationCoordinate = chosenDirection().getVector();
 		Cell destinationCell = game.getCell(currentCell.getPosition().translate(destinationCoordinate));  //Vou buscar a célula para onde o player quer se mover
-		if(destinationCell == null)		return;//Verificar se a Cell destino existe
 
-		if(destinationCell.isOccupied()) {
-			if(destinationCell.getPlayer().getCurrentStrength() == 10 || destinationCell.getPlayer().getCurrentStrength() == 0){ // Se a Cell destino estiver ocupada com um obstaculo, perde-se este ciclo, aborta-se o movimento
-				try {
-					if(!isHumanPlayer())	Thread.sleep(Game.MAX_WAITING_TIME_FOR_MOVE);	//Se um BotPlayer se mover para o obstaculo, este tem que esperar
-				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
+		if (destinationCell == null) return;//Verificar se a Cell destino existe
+		destinationCell.getLock().lock();
+
+		try {
+			if (destinationCell.isOccupied()) {
+				if (destinationCell.getPlayer().getCurrentStrength() == 10 || destinationCell.getPlayer().getCurrentStrength() == 0) { // Se a Cell destino estiver ocupada com um obstaculo, perde-se este ciclo, aborta-se o movimento
+					try {
+						if (!isHumanPlayer())
+							Thread.sleep(Game.MAX_WAITING_TIME_FOR_MOVE);    //Se um BotPlayer se mover para o obstaculo, este tem que esperar
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+					return;
 				}
-				return;
-			}
-			// Caso a Cell esteja ocupada por um jogador vivo, resolve-se o conflito
+				// Caso a Cell esteja ocupada por um jogador vivo, resolve-se o conflito
 				this.resolveConflict(destinationCell.getPlayer());
+				game.notifyChange();
+				return;
+
+			}
+			destinationCell.setPlayer(this);    //Digo que o "player" agora faz parte dessa célula
+			game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
+			this.setCell(destinationCell);        //Coloco a Cell position da classe Player = nova
 			game.notifyChange();
-			return;
-		}
-		destinationCell.setPlayer(this);	//Digo que o "player" agora faz parte dessa célula
-		game.getCell(currentCell.getPosition()).unsetPlayer(); // Por fim digo que a célula anteriormente ocupada pelo Player ficou livre, logo Player player = null
-		this.setCell(destinationCell);		//Coloco a Cell position da classe Player = nova
-		game.notifyChange();
-		synchronized (this){ //TODO Isto é novo
-			notifyAll();
+		}finally {
+			destinationCell.getLock().unlock();
 		}
 	}
 
@@ -94,6 +99,7 @@ public abstract class Player implements Serializable {
 		deadPlayer.setCurrentStrength((byte) 0); //O player morto tem  a sua força alterada para 0 pontos
 	}
 	public void setCell(Cell c) {
+		if(this.isDead() || this.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH) return;
 		position = c;
 	}
 

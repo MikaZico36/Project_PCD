@@ -26,15 +26,15 @@ public class Podio implements Serializable {
     public synchronized void countDown(Player player){
         podio.add(player);
         count--;
-        if(count == 0) {
+        if (isFinished()) {
             notifyAll();
             lugaresPodio();
         }
-      /*  if(isFinished()) {
-            notifyAll();
-            lugaresPodio();
-        }*/
     }
+    public boolean isFinished(){
+        return count == 0;
+    }
+
 //Método await() que coloca os playersBot em espera assim que são adicionados ao Podio
     public synchronized void await() throws InterruptedException{
         if (count >0)

@@ -15,7 +15,7 @@ public class Cell implements Serializable {
 	private Player player=null;
 	//O Cadeado que cada Cell irá utilizar
 	private Lock lock = new ReentrantLock();
-	
+
 	public Cell(Coordinate position, Game g) {
 		super();
 		this.position = position;
@@ -23,35 +23,25 @@ public class Cell implements Serializable {
 	}
 
 	public Coordinate getPosition() {
-		lock.lock();
-		try {
 			return position;
-		}finally {
-			lock.unlock();
-		}
 	}
 	public boolean isOccupied() {
-		lock.lock();
-		try {
 			return player != null;
-		}finally {
-			lock.unlock();
-		}
 	}
 
 	public Player getPlayer() {
-		lock.lock();
-		try {
 			return player;
-		}finally {
-			lock.unlock();
-		}
+	}
+
+	public Lock getLock(){
+		return lock;
 	}
 
 
 	public void setPlayer(Player player) {
 		lock.lock();
 		try{
+			if(player.isDead() || player.getCurrentStrength() == Game.MAX_PLAYER_STRENGTH)return;
 			this.player = player;
 			player.setCell(this);
 			game.notifyChange();
@@ -71,6 +61,7 @@ public class Cell implements Serializable {
 					return;
 				}
 			try {
+				System.out.println("Vou ficar à espera");
 				synchronized (this) {
 					wait();
 				}
@@ -95,7 +86,10 @@ public class Cell implements Serializable {
 				return;
 			player = null;
 			game.notifyChange();
-		}finally {
+			synchronized (this) {
+				notifyAll();
+			}
+			}finally {
 			lock.unlock();
 		}
 
